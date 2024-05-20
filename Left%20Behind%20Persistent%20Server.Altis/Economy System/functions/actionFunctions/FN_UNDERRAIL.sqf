@@ -1,0 +1,3 @@
+params ["_container", "_caller", "_actionId"];
+[_container, ["Purchase HARRIS BIPOD (Black): $25", "Economy System\functions\FN_PurchaseItem.sqf", ["bipod_01_F_blk",25],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
+[_container, ["Purchase HARRIS BIPOD (Multicam): $30", "Economy System\functions\FN_PurchaseItem.sqf", ["bipod_01_F_mtp",30],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];

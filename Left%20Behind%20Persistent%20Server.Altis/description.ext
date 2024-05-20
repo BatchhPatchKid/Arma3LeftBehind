@@ -1,0 +1,4 @@
+briefingName = "(Vanilla) Left Behind - Persistent Server";
+loadScreen = "pics\LB_Tanoa.paa";
+respawnOnStart=-1;
+enableDebugConsole = 1;
