@@ -24,6 +24,10 @@ if (isNull (currentTask _caller)) then {
 	_command = _unitSkillsArray select 7;
 	_spotDist = _unitSkillsArray select 8;
 	_reload = _unitSkillsArray select 9;
+	_sfGroup = _unitSkillsArray select 10;
+	
+	_sfOverride = false;
+	if (random _sfGroup < 1) then { _sfOverride = true; };
 
 	_meleeChance = [_faction] call compile preprocessFileLineNumbers "AISpawners\aiSubScripts\meleeChance.sqf";
 
@@ -32,7 +36,7 @@ if (isNull (currentTask _caller)) then {
 	private ["_newAI"]; // instantiated so I don't get an error from it only being defined in 'if' statements
 
 	_newAI = _groupBandit createUnit [_unit, _pos, [], 15, "NONE"];
-	[_faction, _newAI, false, true] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+	[_faction, _newAI, false, true, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 	_newAI setSkill ["aimingAccuracy", _aim];
 	_newAI setSkill ["aimingSpeed", _aimSpeed];
 	_newAI setSkill ["spotTime", _spot];
@@ -67,8 +71,8 @@ if (isNull (currentTask _caller)) then {
 						_caller addItemToBackpack "rvg_money"; 
 						hintSilent format ["All of the amount owed to you ($%2) has been put in your backpack, %1. Good work out there.", (name _caller), 120];
 					} else {
-						[_container, _caller, _actionId, "rvg_money", 1, (_moneyPayedBack-_i)+1] call FN_ammoBoxCheck;
-						break;
+						[_container, _caller, _actionId, "rvg_money", 1, 1] execVM "Economy System\functions\FN_ammoBoxCheck.sqf";
+						hintSilent format ["It seems your backpack was full or missing %1. The remaining or full amount has been put into a ammo box at the original assigning contractors location", (name _caller)];
 					};
 				};
 				sleep 5;

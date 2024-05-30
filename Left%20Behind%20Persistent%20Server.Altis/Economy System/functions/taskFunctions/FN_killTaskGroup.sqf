@@ -21,6 +21,10 @@ if (isNull (currentTask _caller)) then {
 	_command = _unitSkillsArray select 7;
 	_spotDist = _unitSkillsArray select 8;
 	_reload = _unitSkillsArray select 9;
+	_sfGroup = _unitSkillsArray select 10;
+	
+	_sfOverride = false;
+	if (random _sfGroup < 1) then { _sfOverride = true; };
 
 	_meleeChance = [_faction] call compile preprocessFileLineNumbers "AISpawners\aiSubScripts\meleeChance.sqf";
 
@@ -29,7 +33,7 @@ if (isNull (currentTask _caller)) then {
 	private ["_newAI"]; // instantiated so I don't get an error from it only being defined in 'if' statements
 
 	_newAI = _groupBandit createUnit [_unit, _pos, [], 15, "NONE"];
-	[_faction, _newAI, false, true] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+	[_faction, _newAI, false, true, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 	_newAI setSkill ["aimingAccuracy", _aim];
 	_newAI setSkill ["aimingSpeed", _aimSpeed];
 	_newAI setSkill ["spotTime", _spot];
@@ -43,7 +47,7 @@ if (isNull (currentTask _caller)) then {
 	for "_i" from 0 to _maxBandits do {
 		if (random 1 > _meleeChance) then {
 			BanditUnit = _groupBandit createUnit [_unit, _pos, [], 15, "NONE"];
-			[_faction, BanditUnit, false, true] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+			[_faction, BanditUnit, false, true, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 			BanditUnit setSkill ["aimingAccuracy", _aim];
 			BanditUnit setSkill ["aimingSpeed", _aimSpeed];
 			BanditUnit setSkill ["spotTime", _spot];
@@ -55,7 +59,7 @@ if (isNull (currentTask _caller)) then {
 		} else {
 			_grpTemp = createGroup east;
 			BanditUnit = _grpTemp createUnit ["O_soldier_Melee_RUSH",([_pos, 0, 10, 3, 0, 20, 0,[],[]] call BIS_fnc_findSafePos),[],1,"NONE"];
-			[_faction, BanditUnit, true, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+			[_faction, BanditUnit, true, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 			[BanditUnit] joinSilent _groupBandit;
 			BanditUnit setSkill ["aimingAccuracy", _aim];
 			BanditUnit setSkill ["aimingSpeed", _aimSpeed];
@@ -108,13 +112,14 @@ if (isNull (currentTask _caller)) then {
 				[_rndTaskID,"SUCCEEDED"] call BIS_fnc_taskSetState; 
 				[_rndTaskID, true] call BIS_fnc_deleteTask;
 				hintSilent "Task has been completed, receive your reward at the contractor's office";
+				_moneyPayedBack = 0;
 				for "_i" from 1 to 80 do {
 					if (_caller canAddItemToBackpack "rvg_money") then {
-						_caller addItemToBackpack "rvg_money"; 
+						_caller addItemToBackpack "rvg_money";
 						hintSilent format ["All of the amount owed to you ($%2) has been put in your backpack, %1. Good work out there.", (name _caller), 80];
 					} else {
-						[_container, _caller, _actionId, "rvg_money", 1, (_moneyPayedBack-_i)+1] call FN_ammoBoxCheck;
-						break;
+						[_container, _caller, _actionId, "rvg_money", 1, 1] execVM "Economy System\functions\FN_ammoBoxCheck.sqf";
+						hintSilent format ["It seems your backpack was full or missing %1. The remaining or full amount has been put into a ammo box at the original assigning contractors location", (name _caller)];
 					};
 				};
 				sleep 5;

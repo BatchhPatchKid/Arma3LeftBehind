@@ -2,7 +2,7 @@ params ["_container", "_caller", "_actionId", "_arguments"];
 
 execVM "ArrayDatabase.sqf";
 
-headgearArraySelectionRare = ["headgear"] call FN_arrayReturn;
+headgearArraySelectionRare = ["headgearExpensive"] call FN_arrayReturn;
 gasArraySelection = ["gas"] call FN_arrayReturn;
 coolClothing = ["clothingExpensive"] call FN_arrayReturn;
 monoNVG = ["monoNVG"] call FN_arrayReturn;

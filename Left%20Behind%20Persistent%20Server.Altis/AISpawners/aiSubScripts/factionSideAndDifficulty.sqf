@@ -10,6 +10,7 @@ _aimShake = 0;
 _command = 0;
 _spotDist = 0;
 _reload = 0;
+_sfGroup = 100;
 _playersRelationArray = [];
 
 _distForAllyToTakeEffect = 1500;
@@ -23,6 +24,7 @@ if (_faction == "Bandit") then {
 	_command = .9;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 50;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "Bandit_Relation";
@@ -48,6 +50,7 @@ if (_faction == "BB") then {
 	_command = 1;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 50;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "BB_Relation";
@@ -73,6 +76,7 @@ if (_faction == "DT") then {
 	_command = .75;
 	_spotDist = 0.5;
 	_reload = 0.4;
+	_sfGroup = 50;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "DT_Relation";
@@ -98,6 +102,7 @@ if (_faction == "NH") then {
 	_command = .9;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 50;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "NH_Relation";
@@ -123,6 +128,7 @@ if (_faction == "PF") then {
 	_command = 1;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 35;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "PF_Relation";
@@ -148,6 +154,7 @@ if (_faction == "RC") then {
 	_command = .9;
 	_spotDist = 0.5;
 	_reload = 1;
+	_sfGroup = 35;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "RC_Relation";
@@ -173,6 +180,7 @@ if (_faction == "TRB") then {
 	_command = .9;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 35;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "TRB_Relation";
@@ -198,6 +206,7 @@ if (_faction == "US") then {
 	_command = 0.9;
 	_spotDist = 0.5;
 	_reload = 0.75;
+	_sfGroup = 10;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "US_Relation";
@@ -223,6 +232,7 @@ if (_faction == "SU") then {
 	_command = 1;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 40;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "SU_Relation";
@@ -248,6 +258,7 @@ if (_faction == "RU") then {
 	_command = 1;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 10;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "RU_Relation";
@@ -273,6 +284,7 @@ if (_faction == "ROA") then {
 	_command = 1;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 20;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "ROA_Relation";
@@ -297,6 +309,7 @@ if (_faction == "PMC") then {
 	_command = 1;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 20;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "PMC_Relation";
@@ -322,6 +335,7 @@ if (_faction == "WO") then {
 	_command = .9;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 35;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "WO_Relation";
@@ -347,6 +361,7 @@ if (_faction == "ALF") then {
 	_command = .9;
 	_spotDist = 0.5;
 	_reload = 0.6;
+	_sfGroup = 25;
 	{
 		if (_x distance _pos < _distForAllyToTakeEffect) then {
 			_relation = _x getVariable "ALF_Relation";
@@ -364,4 +379,4 @@ if (_faction == "ALF") then {
 	};
 };
 
-[_side, _unit, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload];
+[_side, _unit, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _sfGroup];

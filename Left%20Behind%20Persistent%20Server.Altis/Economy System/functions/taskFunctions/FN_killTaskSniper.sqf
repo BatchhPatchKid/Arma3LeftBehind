@@ -12,10 +12,10 @@ if (isNull (currentTask _caller)) then {
 	_newAI = _sniperGrp createUnit ["I_G_Survivor_F",_pos,[],15,"NONE"];
 	
 	_newAI addGoggles (selectRandom ["G_Balaclava_oli","G_Balaclava_TI_blk_F","G_Balaclava_TI_G_blk_F","G_Balaclava_TI_tna_F","G_Balaclava_TI_G_tna_F","G_Balaclava_blk","G_Balaclava_lowprofile"]);
-	_newAI addUniform (selectRandom ["U_I_FullGhillie_ard","U_O_FullGhillie_ard","U_B_FullGhillie_ard","U_O_T_FullGhillie_tna_F","U_B_T_FullGhillie_tna_F","U_I_FullGhillie_lsh","U_O_FullGhillie_lsh","U_B_FullGhillie_lsh","U_I_FullGhillie_sard","U_O_FullGhillie_sard","U_B_FullGhillie_sard"]);
+	_newAI addUniform (selectRandom ["U_FRITH_RUIN_SDR_snip_crow","U_FRITH_RUIN_SDR_snip_hawk","U_FRITH_RUIN_SDR_snip_bld","U_FRITH_RUIN_SDR_snip_crow","U_FRITH_RUIN_SDR_snip_hawk","U_FRITH_RUIN_SDR_snip_bld","U_FRITH_RUIN_SDR_snip_crow","U_FRITH_RUIN_SDR_snip_hawk","U_FRITH_RUIN_SDR_snip_bld","U_FRITH_RUIN_SDR_snip_crow","U_FRITH_RUIN_SDR_snip_hawk","U_FRITH_RUIN_SDR_snip_bld","U_FRITH_RUIN_SDR_snip_crow","U_FRITH_RUIN_SDR_snip_hawk","U_FRITH_RUIN_SDR_snip_bld","U_FRITH_RUIN_SDR_snip_crow","U_FRITH_RUIN_SDR_snip_hawk","U_FRITH_RUIN_SDR_snip_bld","U_FRITH_RUIN_SDR_snip_crow","U_FRITH_RUIN_SDR_snip_hawk","U_FRITH_RUIN_SDR_snip_bld","U_I_FullGhillie_ard","U_O_FullGhillie_ard","U_B_FullGhillie_ard","U_O_T_FullGhillie_tna_F","U_B_T_FullGhillie_tna_F","U_I_FullGhillie_lsh","U_O_FullGhillie_lsh","U_B_FullGhillie_lsh","U_I_FullGhillie_sard","U_O_FullGhillie_sard","U_B_FullGhillie_sard"]);
 	_newAI addVest (selectRandom ["V_SmershVest_01_radio_F","V_SmershVest_01_F"]);
-	_rifle = selectRandom (["srifle_DMR_06_camo_F","srifle_DMR_06_hunter_F","srifle_DMR_06_olive_F","srifle_EBR_F","Rusty_srifle_EBR_F","arifle_MXM_Black_F","arifle_MXM_khk_F","srifle_DMR_07_blk_F","srifle_DMR_07_ghex_F","srifle_DMR_07_hex_F","srifle_DMR_03_F","srifle_DMR_03_multicam_F","srifle_DMR_03_khaki_F","srifle_DMR_03_tan_F","srifle_DMR_03_woodland_F"]);
-	_scope = selectRandom (["optic_DMS","optic_MRCO","optic_KHS_blk","optic_SOS","optic_AMS"]);
+	_rifle = selectRandom (["rhs_weap_svds_npz","rhs_weap_svdp_wd_npz","srifle_DMR_07_ghex_F","arifle_MXM_Black_F","arifle_MSBS65_Mark_camo_F","rhs_weap_mk17_LB","rhs_weap_sr25_ec_wd","rhs_weap_m40a5_wd","rhs_weap_m24sws_wd","rhs_weap_XM2010_sa","rhs_weap_m14_wd","rhs_weap_m14ebrri","arifle_SPAR_03_khk_F","arifle_SPAR_03_blk_F"]);
+	_scope = selectRandom (["optic_MRCO","optic_MRCO","optic_MRCO","optic_MRCO","optic_DMS","optic_KHS_blk","optic_SOS","optic_AMS","rhsusf_acc_ACOG3_USMC","optic_DMS_weathered_F","optic_KHS_old","rhsusf_acc_ACOG3","rhsusf_acc_M8541_low","rhsusf_acc_ACOG_RMR"]);
 	
 	if (round (random 10) == 5) then { _newAI linkItem "ACE_NVG_Gen1"; };
 	
@@ -72,8 +72,8 @@ if (isNull (currentTask _caller)) then {
 						_caller addItemToBackpack "rvg_money"; 
 						hintSilent format ["All of the amount owed to you ($%2) has been put in your backpack, %1. Good work out there.", (name _caller), 150];
 					} else {
-						[_container, _caller, _actionId, "rvg_money", 1, (_moneyPayedBack-_i)+1] call FN_ammoBoxCheck;
-						break;
+						[_container, _caller, _actionId, "rvg_money", 1, 1] execVM "Economy System\functions\FN_ammoBoxCheck.sqf";
+						hintSilent format ["It seems your backpack was full or missing %1. The remaining or full amount has been put into a ammo box at the original assigning contractors location", (name _caller)];
 					};
 				};
 				sleep 5;

@@ -49,6 +49,10 @@ if (side player != civilian) then {
 							_command = _unitSkillsArray select 7;
 							_spotDist = _unitSkillsArray select 8;
 							_reload = _unitSkillsArray select 9;
+							_sfGroup = _unitSkillsArray select 10;
+							
+							_sfOverride = false;
+							if (random _sfGroup < 1) then { _sfOverride = true; };
 
 							_meleeChance = [_faction] call compile preprocessFileLineNumbers "AISpawners\aiSubScripts\meleeChance.sqf";
 
@@ -60,15 +64,8 @@ if (side player != civilian) then {
 									BanditUnit = "";
 									if (random 1 > _meleeChance) then {
 										BanditUnit = _groupBandit createUnit [_unit, _pos, [], 15, "NONE"];
-										[_faction, BanditUnit, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
-										BanditUnit setSkill ["aimingAccuracy", _aim];
-										BanditUnit setSkill ["aimingSpeed", _aimSpeed];
-										BanditUnit setSkill ["spotTime", _spot];
-										BanditUnit setSkill ["courage", _courage];
-										BanditUnit setSkill ["aimingShake", _aimShake];
-										BanditUnit setSkill ["commanding", _command];
-										BanditUnit setSkill ["spotDistance", _spotDist];
-										BanditUnit setSkill ["reloadSpeed", _reload];	
+										[_faction, BanditUnit, false, false, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+										[BanditUnit,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] execVM "AISpawners\aiSubScripts\FN_setSkill.sqf";
 
 										if (_side == WEST && (random 1) > .70) then {
 											[BanditUnit] execVM "Economy System\economySystem.sqf";
@@ -76,16 +73,9 @@ if (side player != civilian) then {
                                     } else {
 										_grpTemp = createGroup east;
 										BanditUnit = _grpTemp createUnit ["O_soldier_Melee_RUSH",([_pos, 0, 10, 3, 0, 20, 0,[],[]] call BIS_fnc_findSafePos),[],1,"NONE"];
-										[_faction, BanditUnit, true, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+										[_faction, BanditUnit, true, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 										[BanditUnit] joinSilent _groupBandit;
-										BanditUnit setSkill ["aimingAccuracy", _aim];
-										BanditUnit setSkill ["aimingSpeed", _aimSpeed];
-										BanditUnit setSkill ["spotTime", _spot];
-										BanditUnit setSkill ["courage", _courage];
-										BanditUnit setSkill ["aimingShake", _aimShake];
-										BanditUnit setSkill ["commanding", _command];
-										BanditUnit setSkill ["spotDistance", _spotDist];
-										BanditUnit setSkill ["reloadSpeed", _reload];
+										[BanditUnit,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] execVM "AISpawners\aiSubScripts\FN_setSkill.sqf";
 									};
                                 };
 

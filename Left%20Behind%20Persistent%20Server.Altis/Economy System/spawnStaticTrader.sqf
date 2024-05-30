@@ -4,7 +4,7 @@ if (isServer) then {
 	
 	_grpTrader = createGroup WEST;
 	_trader = _grpTrader createUnit ["B_G_Survivor_F",(getPos _trigger),[],1,"NONE"];
-	[_faction, _trader, false, true] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+	[_faction, _trader, false, true, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 	_trader disableAI "ANIM";
 	sleep .5;
 	removeBackpackGlobal _trader;
@@ -55,11 +55,15 @@ if (isServer) then {
 			_command = _unitSkillsArray select 7;
 			_spotDist = _unitSkillsArray select 8;
 			_reload = _unitSkillsArray select 9;
+			_sfGroup = _unitSkillsArray select 10;
+			
+			_sfOverride = false;
+			if (random _sfGroup < 1) then { _sfOverride = true; };
 			
 			_grpAmbush = createGroup independent;
 			for "_i" from 1 to (7 + round(random 7)) do {
 				_newAI = _grpAmbush createUnit ["I_G_Survivor_F",([_pos, 0, 10, 3, 0, 20, 0,[],[]] call BIS_fnc_findSafePos),[],1,"NONE"];
-				["ROA", _newAI, false, true] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+				["ROA", _newAI, false, true, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 				
 				[_newAI,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] call FN_setSkill;
 			};

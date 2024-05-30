@@ -49,6 +49,7 @@ FN_backPack_Crate = {
 _containerAction = _container addAction ["ACCESS PRIMARY WEAPON CATALOGUE", FN_primary_Crate,[],1.5,true,false,"","true",3];
 FN_primary_Crate = {
 	params ["_container", "_caller", "_actionId"];
+	_containerAction = _container addAction ["-------VANILLA PRIMARY WEAPONS-------",{},[],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase AK-15: $350", FN_PurchaseItem_Crate, ["arifle_AK12_F",350],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase AKM: $175", FN_PurchaseItem_Crate, ["arifle_AKM_F",175],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase AKS-74U: $80", FN_PurchaseItem_Crate, ["arifle_AKS_F",80],1.5,true,false,"","true",3];
@@ -96,6 +97,58 @@ FN_primary_Crate = {
 	_containerAction = _container addAction ["Purchase VS-121: $350", FN_PurchaseItem_Crate, ["srifle_DMR_01_F",350],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase XTS: $1,500", FN_PurchaseItem_Crate, ["DSA_XTS",500],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase ZAFIR: $500", FN_PurchaseItem_Crate, ["Rusty_LMG_Zafir_F",500],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["-------RHS PRIMARY WEAPONS-------",{},[],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AK-103: $180", FN_PurchaseItem_Crate, ["rhs_weap_ak103_1",180],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AK-104: $160", FN_PurchaseItem_Crate, ["rhs_weap_ak104",160],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AK-105: $120", FN_PurchaseItem_Crate, ["rhs_weap_ak105",120],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AK-74: $250", FN_PurchaseItem_Crate, ["rhs_weap_ak74",250],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AK-74M: $180", FN_PurchaseItem_Crate, ["rhs_weap_ak74m",180],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AK-74MR: $250", FN_PurchaseItem_Crate, ["rhs_weap_ak74mr",250],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AK74N: $325", FN_PurchaseItem_Crate, ["rhs_weap_ak74n",325],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AKM: $160", FN_PurchaseItem_Crate, ["rhs_weap_akm",160],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AKMN: $210", FN_PurchaseItem_Crate, ["rhs_weap_akmn",210],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AKMS: $215", FN_PurchaseItem_Crate, ["rhs_weap_akms",215],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AKS-74: $260", FN_PurchaseItem_Crate, ["rhs_weap_aks74",260],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AKS-74N: $330", FN_PurchaseItem_Crate, ["rhs_weap_aks74n",330],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AKS-74U: $100", FN_PurchaseItem_Crate, ["rhs_weap_aks74u",100],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AS VAL: $350", FN_PurchaseItem_Crate, ["rhs_weap_asval",50],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase PKM: $550", FN_PurchaseItem_Crate, ["rhs_weap_pkm",550],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase PKP: $715", FN_PurchaseItem_Crate, ["rhs_weap_pkp",715],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase PM-63: $150", FN_PurchaseItem_Crate, ["rhs_weap_pm63",150],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase PP-2000: $30", FN_PurchaseItem_Crate, ["rhs_weap_pp2000",30],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase RPK-74M: $350", FN_PurchaseItem_Crate, ["rhs_weap_rpk74m",350],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase SVDM: $425", FN_PurchaseItem_Crate, ["rhs_weap_svdp",425],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase SVDS: $420", FN_PurchaseItem_Crate, ["rhs_weap_svds",420],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase T-5000: $750", FN_PurchaseItem_Crate, ["rhs_weap_t5000",750],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase VSS VINTOREZ: $380", FN_PurchaseItem_Crate, ["rhs_weap_vss",380],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase HK416 D10: $290", FN_PurchaseItem_Crate, ["rhs_weap_hk416d10",290],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase HK416 D14.5: $325", FN_PurchaseItem_Crate, ["rhs_weap_hk416d145",325],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M107: $2,000", FN_PurchaseItem_Crate, ["rhs_weap_M107",2000],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M14: $330", FN_PurchaseItem_Crate, ["rhs_weap_m14",330],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M14 EBR-RI: $480", FN_PurchaseItem_Crate, ["rhs_weap_m14ebrri",480],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M14A4: $300", FN_PurchaseItem_Crate, ["rhs_weap_m16a4",300],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M2010 ESR: $800", FN_PurchaseItem_Crate, ["rhs_weap_XM2010_wd",800],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M24 SWS: $700", FN_PurchaseItem_Crate, ["rhs_weap_m24sws_wd",700],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M240B: $700", FN_PurchaseItem_Crate, ["rhs_weap_m240B",700],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M240G: $720", FN_PurchaseItem_Crate, ["rhs_weap_m240G",720],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M249: $475", FN_PurchaseItem_Crate, ["rhs_weap_m249",475],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M249 PIP: $620", FN_PurchaseItem_Crate, ["rhs_weap_m249_pip",620],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M27 IAR: $350", FN_PurchaseItem_Crate, ["rhs_weap_m27iar",350],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M32 MGL: $250", FN_PurchaseItem_Crate, ["rhs_weap_m32",250],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M4: $230", FN_PurchaseItem_Crate, ["rhs_weap_m4",230],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M40A5: $675", FN_PurchaseItem_Crate, ["rhs_weap_m40a5",675],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M4A1: $250", FN_PurchaseItem_Crate, ["rhs_weap_m4a1_carryhandle",250],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M4A1 BLOCK II: $350", FN_PurchaseItem_Crate, ["rhs_weap_m4a1_blockII",350],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M4A1 PIP: $250", FN_PurchaseItem_Crate, ["rhs_weap_m4a1",250],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M590A1 LONG: $125", FN_PurchaseItem_Crate, ["rhs_weap_M590_8RD",125],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M590A1 SHORT: $50", FN_PurchaseItem_Crate, ["rhs_weap_M590_5RD",50],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MK 11 MOD 0: $800", FN_PurchaseItem_Crate, ["rhs_weap_sr25",800],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MK 17 MOD 0 CQC: $600", FN_PurchaseItem_Crate, ["rhs_weap_mk17_CQC",600],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MK 17 MOD 0 LB: $675", FN_PurchaseItem_Crate, ["rhs_weap_mk17_LB",675],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MK 17 MOD 0 STD: $660", FN_PurchaseItem_Crate, ["rhs_weap_mk17_STD",660],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MK 18 MOD 1: $275", FN_PurchaseItem_Crate, ["rhs_weap_mk18",275],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MP7A2: $60", FN_PurchaseItem_Crate, ["rhsusf_weap_MP7A2",60],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase SOCOM 16: $300", FN_PurchaseItem_Crate, ["rhs_weap_m14_socom",300],1.5,true,false,"","true",3];
 };
 _containerAction = _container addAction ["ACCESS SIDEARM CATALOGUE", FN_sidearms_Crate,[],1.5,true,false,"","true",3];
 FN_sidearms_Crate = {
@@ -120,6 +173,8 @@ FN_sidearms_Crate = {
 	_containerAction = _container addAction ["Purchase KATANA: $75", FN_PurchaseItem_Crate, ["WBK_Katana",75],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase KERABIT: $30", FN_PurchaseItem_Crate, ["Weap_melee_knife",30],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase M3 KNIFE: $30", FN_PurchaseItem_Crate, ["Knife_m3",30],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MAKAROV PM: $80", FN_PurchaseItem_Crate, ["rhs_weap_makarov_pm",80],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MP-443 GRACH: $125", FN_PurchaseItem_Crate, ["rhs_weap_pya",125],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase P99: $125", FN_PurchaseItem_Crate, ["hgun_P07_F",125],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase PIPE STYLED SWORD: $30", FN_PurchaseItem_Crate, ["WBK_pipeStyledSword",30],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase POLICE BAT: $30", FN_PurchaseItem_Crate, ["Police_Bat",30],1.5,true,false,"","true",3];
@@ -156,11 +211,13 @@ FN_mags_Crate = {
 	_containerAction = _container addAction ["Purchase Launcher Compatible Magazine: $30", FN_PurchaseMag_Crate,[1, 30],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase GL ROUND: $10", FN_PurchaseItem_Crate, ["1Rnd_HE_Grenade_shell",10],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase 3 HE GL ROUND: $15", FN_PurchaseItem_Crate, ["3Rnd_HE_Grenade_shell",15],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase VOG-25 (RUS): $10", FN_PurchaseItem_Crate, ["rhs_VOG25",10],1.5,true,false,"","true",3];
 };
 
 _containerAction = _container addAction ["ACCESS OPTIC CATALOGUE", FN_optics_Crate,[],1.5,true,false,"","true",3];
 FN_optics_Crate = {
 	params ["_container", "_caller", "_actionId"];
+	_containerAction = _container addAction ["-------VANILLA OPTICS-------",{},[],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase BURRIS FASTFIRE 2: $30", FN_PurchaseItem_Crate, ["optic_Yorris",30],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase Holosight: $50", FN_PurchaseItem_Crate, ["optic_Holosight",50],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase IOR-Valdada Pitbull 2: $75", FN_PurchaseItem_Crate, ["optic_MRCO",75],1.5,true,false,"","true",3];
@@ -169,33 +226,60 @@ FN_optics_Crate = {
 	_containerAction = _container addAction ["Purchase Burris XTR II: $500", FN_PurchaseItem_Crate, ["optic_DMS",500],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase KAHLES Helia: $550", FN_PurchaseItem_Crate, ["optic_KHS_blk",550],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase Nightforce NXS: $650", FN_PurchaseItem_Crate, ["optic_LRPS",650],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["-------RHS OPTICS-------",{},[],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase EKP-8-02: $50", FN_PurchaseItem_Crate, ["rhs_acc_ekp8_02",50],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase OKP7: $50", FN_PurchaseItem_Crate, ["rhs_acc_okp7_dovetail",50],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase 1PN93-2: $100", FN_PurchaseItem_Crate, ["rhs_acc_1pn93_2",100],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase PSO-1M2: $150", FN_PurchaseItem_Crate, ["rhs_acc_pso1m2",150],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M552 CCO: $50", FN_PurchaseItem_Crate, ["rhsusf_acc_eotech_552",50],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase SU-278/PVS LT660: $50", FN_PurchaseItem_Crate, ["rhsusf_acc_T1_high",50],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase G33 + XPS3: $200", FN_PurchaseItem_Crate, ["rhsusf_acc_g33_xps3",200],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M150 RCO(ARD): $450", FN_PurchaseItem_Crate, ["rhsusf_acc_ACOG2",450],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MK. 4 M5 (MRDS): $800", FN_PurchaseItem_Crate, ["rhsusf_acc_LEUPOLDMK4_2_mrds",800],1.5,true,false,"","true",3];
 	
 };
 _containerAction = _container addAction ["ACCESS RAIL ATTACHMENT CATALOGUE", FN_rail_Crate,[],1.5,true,false,"","true",3];
 FN_rail_Crate = {
 	params ["_container", "_caller", "_actionId"];
+	_containerAction = _container addAction ["-------VANILLA RAIL ATTACHMENTS-------",{},[],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase UTG Defender 126: $5", FN_PurchaseItem_Crate, ["acc_flashlight",5],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase UTG Defender 126 (SMG): $5", FN_PurchaseItem_Crate, ["acc_flashlight_smg_01",5],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase Pistol Flashlight: $5", FN_PurchaseItem_Crate, ["acc_flashlight_pistol",150],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase Laser Pointer: $150", FN_PurchaseItem_Crate, ["acc_pointer_IR",150],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["-------RHS RAIL ATTACHMENTS-------",{},[],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase WMX FLASHLIGHT (NATO): $5", FN_PurchaseItem_Crate, ["rhsusf_acc_wmx_bk",5],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase 2DP (RUS): $5", FN_PurchaseItem_Crate, ["rhs_acc_2dpZenit",5],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AN/PEQ-15 (NATO): $150", FN_PurchaseItem_Crate, ["rhsusf_acc_anpeq15side",150],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase PERST-1LK (RUS): $150", FN_PurchaseItem_Crate, ["rhs_acc_perst1ik",150],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AN/PEQ-15/M952V: $155", FN_PurchaseItem_Crate, ["rhsusf_acc_anpeq15",155],1.5,true,false,"","true",3];
 };
 
 _containerAction = _container addAction ["ACCESS MUZZLE ATTACHMENT CATALOGUE", FN_muzzle_Crate,[],1.5,true,false,"","true",3];
 FN_muzzle_Crate = {
 	params ["_container", "_caller", "_actionId"];
+	_containerAction = _container addAction ["Purchase PBS-4: $200", FN_PurchaseItem_Crate, ["rhs_acc_pbs4",200],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase TGP-A: $200", FN_PurchaseItem_Crate, ["rhs_acc_tgpa",200],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase PBS-1: $300", FN_PurchaseItem_Crate, ["rhs_acc_pbs1",300],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase FLASH SUPPRESSOR (7.62): $75", FN_PurchaseItem_Crate, ["ACE_muzzle_mzls_B",75],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR (7.62): $300", FN_PurchaseItem_Crate, ["muzzle_snds_B",300],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase FLASH SUPPRESSOR (9MM): $25", FN_PurchaseItem_Crate, ["ACE_muzzle_mzls_smg_02",25],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR (9MM): $100", FN_PurchaseItem_Crate, ["muzzle_snds_L",100],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase FLASH SUPPRESSOR (5.56): $60", FN_PurchaseItem_Crate, ["ACE_muzzle_mzls_L",60],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase NT4 QDSS: $300", FN_PurchaseItem_Crate, ["rhsusf_acc_nt4_black",300],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase FLASH SUPPRESSOR (9.3MM): $450", FN_PurchaseItem_Crate, ["ACE_muzzle_mzls_93mmg",450],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR MG: $400", FN_PurchaseItem_Crate, ["muzzle_snds_H_MG_blk_F",400],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase FLASH SUPPRESSOR (6.5MM): $50", FN_PurchaseItem_Crate, ["ACE_muzzle_mzls_H",50],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR (6.5MM): $300", FN_PurchaseItem_Crate, ["muzzle_snds_H",300],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase FLASH SUPPRESSOR (.338): $100", FN_PurchaseItem_Crate, ["ACE_muzzle_mzls_338",100],1.5,true,false,"","true",3];	
-	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR (.338): $400", FN_PurchaseItem_Crate, ["muzzle_snds_338_black",400],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR (.338): $400", FN_PurchaseItem_Crate, ["muzzle_snds_338_black",400],1.5,true,false,"","true",3];	
+	_containerAction = _container addAction ["Purchase TiTaN: $400", FN_PurchaseItem_Crate, ["rhsusf_acc_M2010S",400],1.5,true,false,"","true",3];	
+	_containerAction = _container addAction ["Purchase M24 15OX. FLASH HIDER: $100", FN_PurchaseItem_Crate, ["rhsusf_acc_m24_muzzlehider_black",100],1.5,true,false,"","true",3];	
+	_containerAction = _container addAction ["Purchase M24 SUPPRESSOR: $400", FN_PurchaseItem_Crate, ["rhsusf_acc_m24_silencer_black",400],1.5,true,false,"","true",3];	
+	_containerAction = _container addAction ["Purchase SR-25 RIFLE SUPPRESSOR: $350", FN_PurchaseItem_Crate, ["rhsusf_acc_SR25S",350],1.5,true,false,"","true",3];	
+	_containerAction = _container addAction ["Purchase ROTEX-II: $125", FN_PurchaseItem_Crate, ["rhsusf_acc_rotex_mp7",125],1.5,true,false,"","true",3];	
 	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR (5.7MM): $200", FN_PurchaseItem_Crate, ["muzzle_snds_570",200],1.5,true,false,"","true",3];	
-	_containerAction = _container addAction ["Purchase STEALTH SUPPRESSOR (5.8MM): $300", FN_PurchaseItem_Crate, ["muzzle_snds_58_blk_F",300],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase STEALTH SUPPRESSOR (5.8MM): $300", FN_PurchaseItem_Crate, ["muzzle_snds_58_blk_F",300],1.5,true,false,"","true",3];	
+	_containerAction = _container addAction ["Purchase TGP-V: $400", FN_PurchaseItem_Crate, ["rhs_acc_tgpv",400],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase FLASH SUPPRESSOR (.45 ACP): $30", FN_PurchaseItem_Crate, ["ACE_muzzle_mzls_smg_01",30],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR (.45 ACP): $125", FN_PurchaseItem_Crate, ["muzzle_snds_acp",125],1.5,true,false,"","true",3];
 };
@@ -203,8 +287,16 @@ FN_muzzle_Crate = {
 _containerAction = _container addAction ["ACCESS UNDERRAIL ATTACHMENT CATALOGUE", FN_UNDERRAIL_Crate,[],1.5,true,false,"","true",3];
 FN_UNDERRAIL_Crate = {
 	params ["_container", "_caller", "_actionId"];
-	_containerAction = _container addAction ["Purchase HARRIS BIPOD (Black): $25", FN_PurchaseItem_Crate, ["bipod_01_F_blk",25],1.5,true,false,"","true",3];
-	_containerAction = _container addAction ["Purchase HARRIS BIPOD (Multicam): $30", FN_PurchaseItem_Crate, ["bipod_01_F_mtp",30],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase AFG GRIP: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_grip2",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase GRIP POD: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_grip1",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase RVG GRIP: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_rvg_blk",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase TD STUBBY GRIP: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_tdstubby_blk",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase TD VERTICAL GRIP: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_grip3",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase HARRIS BIPOD: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_harris_bipod",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase MULTIPURPOSE BIPOD: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_m14_bipod",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase M203 GRIP: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_grip_m203_blk",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase HARRIS BIPOD (M24): $25", FN_PurchaseItem_Crate, ["rhs_acc_harris_swivel",25],1.5,true,false,"","true",3];
+	_containerAction = _container addAction ["Purchase SAW BIPOD: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_saw_bipod",25],1.5,true,false,"","true",3];
 };
 
 _containerAction = _container addAction ["ACCESS GRENADES CATALOGUE", FN_GRENADES_Crate,[],1.5,true,false,"","true",3];
@@ -457,7 +549,7 @@ FN_SellAction_Crate =  {
 	params ["_container", "_caller", "_actionId", "_arguments"];
 
 	execVM "ArrayDatabase.sqf";
-	headgearArraySelectionRare = ["headgear"] call FN_arrayReturn;
+	headgearArraySelectionRare = ["headgearExpensive"] call FN_arrayReturn;
 	gasArraySelection = ["gas"] call FN_arrayReturn;
 	coolClothing = ["clothingExpensive"] call FN_arrayReturn;
 	monoNVG = ["monoNVG"] call FN_arrayReturn;

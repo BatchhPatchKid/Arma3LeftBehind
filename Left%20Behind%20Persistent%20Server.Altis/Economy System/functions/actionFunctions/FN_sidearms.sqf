@@ -19,6 +19,8 @@ params ["_container", "_caller", "_actionId"];
 [_container, ["Purchase KATANA: $75", "Economy System\functions\FN_PurchaseItem.sqf", ["WBK_Katana",75],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
 [_container, ["Purchase KERABIT: $30", "Economy System\functions\FN_PurchaseItem.sqf", ["Weap_melee_knife",30],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
 [_container, ["Purchase M3 KNIFE: $30", "Economy System\functions\FN_PurchaseItem.sqf", ["Knife_m3",30],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
+[_container, ["Purchase MAKAROV PM: $80", "Economy System\functions\FN_PurchaseItem.sqf", ["rhs_weap_makarov_pm",80],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
+[_container, ["Purchase MP-443 GRACH: $125", "Economy System\functions\FN_PurchaseItem.sqf", ["rhs_weap_pya",125],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
 [_container, ["Purchase P99: $125", "Economy System\functions\FN_PurchaseItem.sqf", ["hgun_P07_F",125],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
 [_container, ["Purchase PIPE STYLED SWORD: $30", "Economy System\functions\FN_PurchaseItem.sqf", ["WBK_pipeStyledSword",30],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
 [_container, ["Purchase POLICE BAT: $30", "Economy System\functions\FN_PurchaseItem.sqf", ["Police_Bat",30],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];

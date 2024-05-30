@@ -18,11 +18,11 @@ FN_createObject = {
 };
 
 FN_spawnAI = {
-	params ["_pos", "_unit", "_grpCamp", "_ANIM", "_xDir", "_yDir", "_xDis", "_yDis", "_zDis", "_prob", "_aim", "_aimSpeed", "_spot", "_courage", "_aimShake", "_command", "_spotDist", "_reload", "_side"];
+	params ["_pos", "_unit", "_grpCamp", "_ANIM", "_xDir", "_yDir", "_xDis", "_yDis", "_zDis", "_prob", "_aim", "_aimSpeed", "_spot", "_courage", "_aimShake", "_command", "_spotDist", "_reload", "_side", "_sfOverride"];
 	_newAI = "";
 	if (random 1 > _prob) then {
 		_newAI = _grpCamp createUnit [_unit,_pos,[],1,"NONE"];
-		[_faction, _newAI, false, true] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+		[_faction, _newAI, false, false, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 		[_newAI,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] call FN_setSkill;
 		_newAI setVectorDirAndUp [[_xDir,_yDir,0], (vectorUp _newAI)];     
 		_newAI setPosATL [(_pos select 0)+_xDis, (_pos select 1)+_yDis, _zDis];
@@ -49,6 +49,10 @@ _aimShake = _unitSkillsArray select 6;
 _command = _unitSkillsArray select 7;
 _spotDist = _unitSkillsArray select 8;
 _reload = _unitSkillsArray select 9;
+_sfGroup = _unitSkillsArray select 10;
+
+_sfOverride = false;
+if (random _sfGroup < 1) then { _sfOverride = true; };
 
 [_pos, "Campfire_burning_F", 0, 1, 0, 0, 0, 0] call FN_createObject;
 
@@ -74,29 +78,29 @@ switch _faction do {
 		[_pos, "Land_Sleeping_bag_F", -.228, .974, -.4, 1.9, 0, 0] call FN_createObject;
 		[_pos, "Land_Sleeping_bag_F", -.845, .531, -1.9, 1, 0, 0] call FN_createObject;
 		
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, -9.5, -0.5, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0.422, -0.906, -0.4, 1.9, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, -1.9, 1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, 1.8, -1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, -9.5, -0.5, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0.422, -0.906, -0.4, 1.9, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, -1.9, 1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, 1.8, -1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 
 		if ((random 1) > .25) then { 
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", -.963, .266, -5.9, 3.4, 0, 0] call FN_createObject;
 			
 			
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", -1, 0, -5.9, 3.4, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -1, 0, -5.9, 3.4, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 
 		if ((random 1) > .25) then { 
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", -.202, .979, -.6, 4.5, 0, 0] call FN_createObject;
 			
 			
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", -1, 0, -0.6, 4.5, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -1, 0, -0.6, 4.5, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 	};
 
@@ -129,45 +133,45 @@ switch _faction do {
 		[_pos, "Land_Sleeping_bag_F", .999, -.018, 7.2, -4.4, 0, 0] call FN_createObject;
 		[_pos, "Land_Sleeping_bag_F", .999, -.018, 9.7, -4.3, 0, 0] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, 11.3, 3.8, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, 11.3, 3.8, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 
 		if ((random 1) > .65) then { 
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", 0, 1, 7.3, 4.3, 0, 0] call FN_createObject;
 			
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", -1, 0, 7.3, 4.3, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -1, 0, 7.3, 4.3, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, 2.8, 1.1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, 2.8, 1.1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 
 		if ((random 1) > .65) then { 
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", -1, 0, -4.1, 0.6, 0, 0] call FN_createObject;
 			
 			
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", -1, 0, -4.1, 0.6, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -1, 0, -4.1, 0.6, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, -1.7, -1.3, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, 0, -0.1, -2, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, 1.9, -3.1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 1, 7.2, -4.3, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, 9.6, -4.3, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, 5.1, -2.5, 2.8, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 0, 6.6, -4.6, 2.8, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, -1.7, -1.3, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, 0, -0.1, -2, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, 1.9, -3.1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 1, 7.2, -4.3, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, 9.6, -4.3, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, 5.1, -2.5, 2.8, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0, 6.6, -4.6, 2.8, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 
 		if ((random 1) > .65) then { 
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", 1, 0, 9, -3.4, 2.8, 0] call FN_createObject;
 			
 			
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", -1, 0, 9, -3.4, 2.8, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -1, 0, 9, -3.4, 2.8, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 	};
 	case "BB": {
@@ -197,19 +201,19 @@ switch _faction do {
 		[_pos, "Land_BagFence_Round_F", -.721, -.693, 4.3, 3.4, 0, .5] call FN_createObject;
 		[_pos, "Land_BagFence_Round_F", -.984, .176, 5.2, -.3, 0, .5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "NONE", -.721, .693, 3.3, 3.4, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -.984, -.176, 4.2, -0.3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -.984, -.176, 1, -2.8, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -.984, -.176, 1.4, 3.7, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", -.984, -.176, 1.2, -0.6, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", .874, -.486, -1.7, 0.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -.721, .693, 3.3, 3.4, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -.984, -.176, 4.2, -0.3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -.984, -.176, 1, -2.8, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -.984, -.176, 1.4, 3.7, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", -.984, -.176, 1.2, -0.6, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", .874, -.486, -1.7, 0.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "RC": {
 		[_pos, _buildingMain, 0, 1, 0, 0, 0, 0] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, 0, -1.7, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 1, 1, -1.5, -1.5, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, -1, 0, 1.6, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, 0, -1.7, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 1, 1, -1.5, -1.5, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, -1, 0, 1.6, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 
 		[_pos, "Land_Camping_Light_F", 0, 1, 4, 0, 0, 0] call FN_createObject;
 		[_pos, "Land_TentDome_F", -.5, 1, 4, 2.5, 0, .5] call FN_createObject;
@@ -218,7 +222,7 @@ switch _faction do {
 		[_pos, "Land_CampingTable_F", .75, 1, -5, -3.3, 0, 0.5] call FN_createObject;
 		[_pos, "Land_CampingChair_V2_F", -.75, 1, -4.4, -2.5, 0, 0.5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "NONE", 1, 1, -5.265, -4.60, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 1, 1, -5.265, -4.60, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 
 		[_pos, "Land_Camping_Light_F", .75, 1, -5, -3.3, 2, 0.5] call FN_createObject;
 		[_pos, "Land_WoodPile_F", .75, 1, -4.4, 3, 0, .5] call FN_createObject;
@@ -228,8 +232,8 @@ switch _faction do {
 		[_pos, "Land_BagFence_01_long_green_F", 1, 0, 7.9, 1.2, -.1, .5] call FN_createObject;
 		[_pos, "Land_BagFence_01_long_green_F", 1, -0.2, 7.6, -1.7, -.1, .5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "NONE", 1, 1, 6.75, -2.5, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 1, 1, 6.6, 2.35, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 1, 1, 6.75, -2.5, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 1, 1, 6.6, 2.35, 0, 0.5, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 
 		if (random 1 > .5) then {
 			[_pos, "Land_BagFence_01_long_green_F", .8, -1, 6.25, -4, -.1, 0] call FN_createObject;
@@ -245,10 +249,10 @@ switch _faction do {
 
 		if (random 1 > .65) then {
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", -.95, -.31, -3.9, -1.8, 0, 0] call FN_createObject;
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", .95, -.31, -3.9, -1.8, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", .95, -.31, -3.9, -1.8, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 		
 		[_pos, "Land_BagFence_Long_F", .188, .982, -1.1, -3.6, 0, .5] call FN_createObject;
@@ -258,10 +262,10 @@ switch _faction do {
 
 		if (random 1 > .65) then {
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", .893, -.45, 4.8, -2.2, 0, 0] call FN_createObject;
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", -.893, -.45, 4.8, -2.2, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -.893, -.45, 4.8, -2.2, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 		
 		[_pos, "Land_HBarrier_5_F", -.924, -.383, 6.1, 2.1, 0, .5] call FN_createObject;
@@ -276,11 +280,11 @@ switch _faction do {
 
 		[_pos, "Land_Sink_F", .881, -.473, -4.1, 2.8, 0, .5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "NONE", .149, -.989, .2, 2.2, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", .86, -.511, -2.1, 1.1, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", -.169, .986, -.3, -2, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -.068, .998, 3.2, 5.4, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", .0898, -.996, 1.6, -2.6, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", .149, -.989, .2, 2.2, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", .86, -.511, -2.1, 1.1, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", -.169, .986, -.3, -2, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -.068, .998, 3.2, 5.4, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", .0898, -.996, 1.6, -2.6, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "PMC": {
 		[_pos, _buildingMain, 1, 0, 0, 0, 0.15, 0] call FN_createObject;
@@ -290,10 +294,10 @@ switch _faction do {
 
 		if (random 1 > .65) then {
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", -1, 0, -2.5, -2.85, 0, 0] call FN_createObject;
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", -1, 0, -2.5, -2.85, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -1, 0, -2.5, -2.85, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 	
 		[_pos, "Land_HBarrier_01_line_5_green_F", 1, 0, -3.95, 2, 0, .5] call FN_createObject;
@@ -313,10 +317,10 @@ switch _faction do {
 		[_pos, "Land_PortableServer_01_olive_F", 0.25, -1, 0.55, -4.25, 0, .5] call FN_createObject;
 		[_pos, "Head_Brain", 0.75, -1, 1.35, -4.25, .85, .5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "CROUCH", 1, -1, -2.15, 1.85, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, 0, 2.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, -1, 1, 4.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, -1, 1.25, -.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 1, -1, -2.15, 1.85, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, 0, 2.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, -1, 1, 4.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, -1, 1.25, -.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "Bandit": {
 		[_pos, _buildingMain, 1, 0, 0, 0, 0, 0] call FN_createObject;
@@ -334,11 +338,11 @@ switch _faction do {
 		[_pos, "Land_Mound01_8m_F", 0.5, 1, 1, 7, 0, .5] call FN_createObject;
 		[_pos, "Land_Mound01_8m_F", -0.15, 1, -1, -5.5, 0, .5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "CROUCH", 1, 1, -2, 0, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, -1.5, 1.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, -1.5, -1.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0.75, 1, -2, 5.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0.75, 1, -3, -5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 1, 1, -2, 0, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, -1.5, 1.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, -1.5, -1.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0.75, 1, -2, 5.5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0.75, 1, -3, -5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "WO": {
 		[_pos, _buildingMain, 1, 0, 0, 1, 0, 0] call FN_createObject;
@@ -363,12 +367,12 @@ switch _faction do {
 			[_pos, "Land_MultiScreenComputer_01_black_F", 0.25, 1, 3, 5.25, 1, 0] call FN_createObject;
 		};
 
-		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, 0, 2, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, 0, -2.2, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -1, 0, 2, 0, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, -1, 1.75, -2.75, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 1, 0, -2.25, -2.75, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, -1, -2.25, 5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, 0, 2, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, 0, -2.2, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -1, 0, 2, 0, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, -1, 1.75, -2.75, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 1, 0, -2.25, -2.75, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, -1, -2.25, 5, 0, .35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "PF": {
 		[_pos, _buildingMain, 0, 1, 1, -1, 0, 0] call FN_createObject;
@@ -383,11 +387,11 @@ switch _faction do {
 		[_pos, "impaled_skeleton", 1, -0.75, -3.5, 0.15, 0, .5] call FN_createObject;
 		[_pos, "impaled_skeleton", -1, 0.75, 3, -2, 0, .5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "NONE", -1, 0, 2.4, -2.4, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -1, 0, -2.4, -2.4, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -1, 0, -2.9, 1.5, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 1, 0, -0.5, 1.5, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, -0, -2, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -1, 0, 2.4, -2.4, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -1, 0, -2.4, -2.4, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -1, 0, -2.9, 1.5, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 1, 0, -0.5, 1.5, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, -0, -2, 0, .25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "ROA": {
 		[_pos, _buildingMain, 0, 1, 0, 0, 0, 0] call FN_createObject;
@@ -398,23 +402,23 @@ switch _faction do {
 			if (random 1 > .65) then { 
 				_turretSelected = [_pos, "I_G_HMG_02_high_F", 1, 0, 4, -1.5, 0, 0] call FN_createObject;
 				
-				_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 4, -1.5, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+				_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 4, -1.5, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 				_newAI_Turret moveInAny _turretSelected;
 			} else {
-				[_pos, _unit, _grpCamp, "NONE", 1, 0, 4, -1.5, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+				[_pos, _unit, _grpCamp, "NONE", 1, 0, 4, -1.5, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			};
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", 1, 0, 4, -1.5, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", 1, 0, 4, -1.5, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 
 		[_pos, "Land_BagFence_01_long_green_F", 0, 1, 1, -3, 0, 0.25] call FN_createObject;
 		[_pos, "Land_BagFence_01_long_green_F", 0, 1, -2, -3, 0, 0.25] call FN_createObject;
 		[_pos, "Land_BagFence_01_long_green_F", 1, 1, -4.65, -2, 0, 0.25] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "CROUCH", -1, 0, 2, 0, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 1, -0.5, -1.8, 1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 1, -0.5, -4.85, -1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 1, 0, -1.85, -1.5, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", -1, 0, 2, 0, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 1, -0.5, -1.8, 1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 1, -0.5, -4.85, -1, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 1, 0, -1.85, -1.5, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "TRB": {
 		[_pos, _buildingMain, 0, 1, 0, 0, 0, 0] call FN_createObject;
@@ -433,16 +437,16 @@ switch _faction do {
 		if ((random 1) > .85) then { 
 			_turretSelected = [_pos, "I_G_HMG_02_high_F", -1, 0, -4, 0, 0, 0] call FN_createObject;
 			
-			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			_newAI_Turret = [_pos, _unit, _grpCamp, "NONE", 0, 0, 0, 0, 0, 0, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 			_newAI_Turret moveInAny _turretSelected;
 		} else {
-			[_pos, _unit, _grpCamp, "NONE", -1, 0, -4.5, 2.3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-			[_pos, _unit, _grpCamp, "NONE", -1, 0, -4.5, -2.3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -1, 0, -4.5, 2.3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+			[_pos, _unit, _grpCamp, "NONE", -1, 0, -4.5, -2.3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 		};
 
-		[_pos, _unit, _grpCamp, "CROUCH", -1, 0, 3, 0, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", -1, -1, 2, 2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", -1, 1, 2, -2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", -1, 0, 3, 0, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", -1, -1, 2, 2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", -1, 1, 2, -2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "NH": {
 		[_pos, _buildingMain, 0, 1, 0, 0, 0, 0] call FN_createObject;
@@ -466,12 +470,12 @@ switch _faction do {
 		[_pos, "Land_BagFence_01_round_green_F", 1, 0.5, -6, -2.5, 0, 0.5] call FN_createObject;
 		[_pos, "Land_BagFence_01_round_green_F", 1, -0.5, -6, 2.5, 0, 0.5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, 0, 2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, 0, -2.2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -1, 0, 2, 0, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 1, 3.1, 5.1, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 1, -5, -2.4, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 0, 1, -5, 2.4, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, 0, 2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, 1, 0, -2.2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -1, 0, 2, 0, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 1, 3.1, 5.1, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 1, -5, -2.4, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 1, -5, 2.4, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	case "DT": {
 		[_pos, _buildingMain, 0, 1, -1, 2, 0, 0] call FN_createObject;
@@ -486,16 +490,16 @@ switch _faction do {
 		[_pos, "Land_Camping_Light_F", 1, 0, -2.95, 0, 2, 0.5] call FN_createObject;
 		[_pos, "Land_CampingChair_V2_F", -0.9, 1, -3, 1.6, 0, 0.5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "NONE", 0, 0.5, -2.5, -2, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", 1, 1, -2, 0, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 0, 0.5, -2.5, -2, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", 1, 1, -2, 0, 0, 0.25, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 
 		[_pos, "Land_Mound01_8m_F", 1, 0.15, -6, 1, 0, 0.45] call FN_createObject;
 		[_pos, "Land_Mound01_8m_F", 0.15, 1, -1, 6, 0, 0.45] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "CROUCH", 0, -0.5, 0.25, 3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", -1, -0.4, 2.3, 1.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -1, 0.2, 2.8, -1.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, 0.5, 0.25, -3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, -0.5, 0.25, 3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", -1, -0.4, 2.3, 1.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -1, 0.2, 2.8, -1.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, 0.5, 0.25, -3, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 	default { // default is survivors union
 		[_pos, _buildingMain, 0, 1, 0, 0, 0, 0] call FN_createObject;
@@ -516,10 +520,10 @@ switch _faction do {
 		[_pos, "Land_WoodPile_F", -0.645, -0.764, -4.6, 1.6, 0, 0.5] call FN_createObject;
 		[_pos, "Land_WoodenLog_F", 0, 1, -3.4, 1.8, 0, 0.5] call FN_createObject;
 
-		[_pos, _unit, _grpCamp, "NONE", -0.218, -0.976, -4, -1.2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -0.218, 0.976, -1, -2.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "NONE", -0.88, 0.475, 6, -0.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 1, 0, -2, 0, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
-		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, 0, 1.35, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -0.218, -0.976, -4, -1.2, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -0.218, 0.976, -1, -2.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "NONE", -0.88, 0.475, 6, -0.5, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 1, 0, -2, 0, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
+		[_pos, _unit, _grpCamp, "CROUCH", 0, -1, 0, 1.35, 0, 0.35, _aim, _aimSpeed, _spot, _courage, _aimShake, _command, _spotDist, _reload, _side, _sfOverride] call FN_spawnAI;
 	};
 };

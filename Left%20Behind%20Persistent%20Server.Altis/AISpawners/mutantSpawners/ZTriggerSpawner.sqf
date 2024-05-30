@@ -100,7 +100,7 @@ switch (_faction) do { //Going throuigh each zombie faction to spawn the appropr
 	};
 	case "spareZombies": { // ambient zombies around a location
 		if (_numUnits == 0) then {
-			_numUnits = [5, 8, 10] call FN_setNumUnits;
+			_numUnits = [4, 5, 6] call FN_setNumUnits;
 		};
 		
 		if (daytime < 4 || daytime > 20) then {
@@ -119,7 +119,7 @@ switch (_faction) do { //Going throuigh each zombie faction to spawn the appropr
 	};
 	default { // Default is zombies
 		if (_numUnits == 0) then {
-			_numUnits = [6, 10, 13] call FN_setNumUnits;
+			_numUnits = [5, 8, 12] call FN_setNumUnits;
 		};
 
 		if (_numUnits > 21) then {

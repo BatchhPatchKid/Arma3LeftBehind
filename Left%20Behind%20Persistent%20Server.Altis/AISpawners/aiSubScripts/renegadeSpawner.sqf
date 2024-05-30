@@ -12,7 +12,7 @@ _reload = 0.6;
 _grp1 = createGroup opfor;
 
 _newAI = _grp1 createUnit ["O_G_Survivor_F", _pos, [], 1, "NONE"];
-["Renegade", _newAI, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+["Renegade", _newAI, false, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 
 _newAI setSkill ["aimingAccuracy", _aim];
 _newAI setSkill ["aimingSpeed", _aimSpeed];

@@ -38,8 +38,6 @@
 
 execVM "Server Ran Scripts\garbageCollection.sqf";
 execVM "Server Ran Scripts\factionClothingChecker.sqf";
-execVM "Server Ran Scripts\randomEncounters.sqf";
-//execVM "Server Ran Scripts\sleepTime.sqf";
 
 Civilian setFriend [WEST,0];
 WEST setFriend [Civilian ,0];

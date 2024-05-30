@@ -24,6 +24,7 @@ _aimShake = _unitSkillsArray select 6;
 _command = _unitSkillsArray select 7;
 _spotDist = _unitSkillsArray select 8;
 _reload = _unitSkillsArray select 9;
+_sfGroup = _unitSkillsArray select 10;
 
 if (_side != WEST) then {
 	switch (_faction) do {
@@ -69,14 +70,14 @@ if (_faction == "RC") then {
 if (_faction == "TRB") then {
 	_turretProb = .25;
 	_buildingMain = "CamoNet_OPFOR_open_F";
-	_vehArray = ["I_C_Offroad_02_LMG_F",.15,"I_G_Offroad_01_armed_F",.15,"C_Van_01_fuel_F",.2,"C_Offroad_02_unarmed_F",.5,"C_Offroad_01_covered_F",.5,"C_Offroad_01_comms_F",.5,"C_Offroad_01_covered_F",.75,"C_Offroad_01_repair_F",.15,"C_Van_01_transport_F",.15,"B_LSV_01_unarmed_F",.15];
+	_vehArray = ["TRBVeh"] call FN_arrayReturn;
 	if (_newNumUnits) then { _numUnits = _numUnits + round(random [6, 8, 10]); };
 };
 if (_faction == "US") then {
 	_turretProb = .55;
 	_turret = ["I_E_GMG_01_high_F", .55,"I_E_HMG_01_high_F", .75,"I_E_Static_AT_F", .35,"I_E_Mortar_01_F", .85];
 	_buildingMain = "CamoNet_BLUFOR_open_F";
-	_vehArray = ["B_LSV_01_unarmed_F", .55,"B_MRAP_01_F", .35,"B_Truck_01_transport_F", .35,"B_MRAP_01_hmg_F", .25,"B_Truck_01_transport_F", .35,"B_Truck_01_covered_F", .35,"B_APC_Wheeled_01_cannon_F", .05,"B_AFV_Wheeled_01_up_cannon_F", .10,"B_Heli_Light_01_F", .03,"B_Heli_Transport_03_unarmed_F", .03,"B_Heli_Transport_01_F", .10,"B_Heli_Light_01_dynamicLoadout_F", .15];
+	_vehArray = ["USVeh"] call FN_arrayReturn;
 	if (_newNumUnits) then { _numUnits = _numUnits + round(random [8, 12, 16]); };
 };
 if (_faction == "SU") then {
@@ -87,26 +88,26 @@ if (_faction == "RU") then {
 	_turretProb = .55;
 	_turret = ["I_E_GMG_01_high_F", .55,"I_E_HMG_01_high_F", .75,"I_E_Static_AT_F", .15,"I_E_Mortar_01_F", .35];
 	_buildingMain = "CamoNet_wdl_open_F";
-	_vehArray = ["O_LSV_02_unarmed_F", .30,"O_LSV_02_armed_F", .35,"O_MRAP_02_F", .50,"O_Truck_02_transport_F", .40,"O_MRAP_02_hmg_F", .10,"O_APC_Wheeled_02_rcws_v2_F", .10,"O_APC_Tracked_02_AA_F", .15,"O_Heli_Light_02_unarmed_F", .05,"O_Heli_Transport_04_medevac_F", .08,"O_Heli_Attack_02_dynamicLoadout_F", .03];
+	_vehArray = ["RUVeh"] call FN_arrayReturn;
 	if (_newNumUnits) then { _numUnits = _numUnits + round(random [8, 12, 16]); };
 };
 if (_faction == "ROA") then {
 	_turretProb = .35;
 	_turret = ["I_E_GMG_01_high_F", .25,"I_E_HMG_01_high_F", .75,"I_E_Static_AT_F", .15,"I_E_Mortar_01_F", .35];
 	_buildingMain = "CamoNet_INDP_F";
-	_vehArray = ["I_E_Offroad_01_covered_F",.50,"I_E_Offroad_01_comms_F",.50,"I_G_Offroad_01_armed_F",.15];
+	_vehArray = ["ROAVeh"] call FN_arrayReturn;
 	if (_newNumUnits) then { _numUnits = _numUnits + round(random [6, 8, 10]); };
 };
 if (_faction == "PMC") then {
 	_turretProb = .35;
 	_turret = ["I_E_GMG_01_high_F", .25,"I_E_HMG_01_high_F", .75,"I_E_Static_AT_F", .15,"I_E_Mortar_01_F", .35];
 	_buildingMain = "CamoNet_INDP_open_F";
-	_vehArray = ["I_C_Offroad_02_LMG_F",.25,"I_C_Offroad_02_unarmed_F",.50,"I_G_Offroad_01_armed_F",.15,"B_LSV_01_armed_F",.20];
+	_vehArray = ["PMCVeh"] call FN_arrayReturn;
 	if (_newNumUnits) then { _numUnits = _numUnits + round(random [6, 8, 10]); };
 };
 if (_faction == "WO") then {
 	_turretProb = .25;
-	_vehArray = ["C_Offroad_01_covered_F",.50,"C_Offroad_01_comms_F",.50,"I_C_Offroad_02_LMG_F",.25];
+	_vehArray = ["WOVeh"] call FN_arrayReturn;
 	if (_newNumUnits) then { _numUnits = _numUnits + round(random [6, 8, 10]); };
 	_buildingMain = "CamoNet_OPFOR_open_F";
 };
@@ -114,7 +115,7 @@ if (_faction == "ALF") then {
 	_turretProb = .35;
 	_turret = ["I_E_GMG_01_high_F", .25,"I_E_HMG_01_high_F", .75,"I_E_Static_AT_F", .15,"I_E_Mortar_01_F", .35];
 	_buildingMain = "CamoNet_OPFOR_open_F";
-	_vehArray = ["B_G_Offroad_01_F", .10,"B_LSV_01_armed_F", .15,"B_LSV_01_unarmed_F", .50,"B_MRAP_01_F", .30];
+	_vehArray = ["ALFVeh"] call FN_arrayReturn;
 	if (_newNumUnits) then { _numUnits = _numUnits + round(random [6, 8, 10]); };
 };
 
@@ -161,9 +162,12 @@ FN_carPatrol = {
 	
 		_grpVeh = createGroup _side;
 		
+		_sfOverride = false;
+		if (random _sfGroup < 1) then { _sfOverride = true; };
+		
 		for "_i" from 1 to _numOfUnits do {
 			_newAI = _grpVeh createUnit [_unit,([_pos, 0, 10, 3, 0, 20, 0,[],[]] call BIS_fnc_findSafePos),[],1,"NONE"];
-			[_faction, _newAI, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+			[_faction, _newAI, false, false, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 			[_newAI,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] call FN_setSkill;
 			sleep .01;
 		};
@@ -216,22 +220,24 @@ FN_spawnFortifications = {
 	_grpTurret = createGroup _side;
 	_grpTurret setBehaviour "SAFE";
 	_newAI_Turret = _grpTurret createUnit [_unit,_pos,[],1,"NONE"];
-	[_faction, _newAI_Turret, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+	[_faction, _newAI_Turret, false, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 	[_newAI_Turret,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] call FN_setSkill;
 	_newAI_Turret moveInAny _turretSelected;
 	
 	_newAIBodyguard = _grpTurret createUnit [_unit,_pos,[],1,"NONE"];
-	[_faction, _newAIBodyguard, false, true] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+	[_faction, _newAIBodyguard, false, true, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 	[_newAIBodyguard,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] call FN_setSkill;
 	_newAIBodyguard setVectorDirAndUp [[1,1,0], (vectorUp _newAIBodyguard)];  
-	_newAIBodyguard setPosATL [(_turretPos select 0)+3, (_turretPos select 1)+2.5, 0];  
-	[_newAIBodyguard, "WATCH", "ASIS"] call BIS_fnc_ambientAnimCombat;
-	_newAIBodyguard disableAI "PATH";
+	_newAIBodyguard setPosATL [(_turretPos select 0)+3, (_turretPos select 1)+2.5, 0];
 };
 
 FN_spawnGroups = {
 	params ["_pos","_numUnits","_faction","_grp","_rndRandomAmountInGroup"];
 	if (_rndRandomAmountInGroup == 0) then { _rndRandomAmountInGroup = round (random [2, 4, 6]); };
+	
+	_sfOverride = false;
+	if (random _sfGroup < 1) then { _sfOverride = true; };
+	
 	for "_i" from 1 to _rndRandomAmountInGroup do {
 		_aiUnits = allUnits select { _x isKindOf "CAManBase" && side _x != civilian && {_x distance (_pos) <= 100} };
 		_numAI = _side countSide _aiUnits;
@@ -239,12 +245,12 @@ FN_spawnGroups = {
 		_meleeChance = [_faction] call compile preprocessFileLineNumbers "AISpawners\aiSubScripts\meleeChance.sqf";
 		if (random 1 > _meleeChance) then {
 			_newAI = _grp createUnit [_unit,([_pos, 0, 10, 3, 0, 20, 0,[],[]] call BIS_fnc_findSafePos),[],1,"NONE"];
-			[_faction, _newAI, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+			[_faction, _newAI, false, false, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 			[_newAI,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] call FN_setSkill;
 		} else {
 			_grpTemp = createGroup east;
 			_newAI = _grpTemp createUnit ["O_soldier_Melee_RUSH",([_pos, 0, 10, 3, 0, 20, 0,[],[]] call BIS_fnc_findSafePos),[],1,"NONE"];
-			[_faction, _newAI, true, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+			[_faction, _newAI, true, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 			[_newAI,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] call FN_setSkill;
 			[_newAI] joinSilent _grp;
 		};

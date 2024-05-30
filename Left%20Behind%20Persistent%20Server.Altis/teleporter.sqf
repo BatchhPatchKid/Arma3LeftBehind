@@ -22,7 +22,7 @@ if (_typeOfTeleporter) then {
 	_factionArray = ["BB",.5,"SU",.35,"RC",.15,"TRB",.15,"DT",.35,"NH",.30,"PF",.20];
 	_factionSelected = _factionArray call BIS_fnc_selectRandomWeighted;
 
-	[_factionSelected, _player, false, true] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+	[_factionSelected, _player, false, true, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 
 	sleep 2;
 

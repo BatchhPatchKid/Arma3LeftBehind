@@ -3,23 +3,17 @@ if (isServer) then {
 	
 	_meleeChance = [_faction] call compile preprocessFileLineNumbers "AISpawners\aiSubScripts\meleeChance.sqf";
 	
-	private _vehArray = ["I_C_Offroad_02_LMG_F",.1,
-	"I_G_Offroad_01_armed_F",.1,
-	"C_Van_01_fuel_F",.2,
-	"C_Hatchback_01_F",.25,
-	"C_Offroad_02_unarmed_F",.5,
-	"C_Truck_02_box_F",.15,
-	"C_Truck_02_transport_F",.35,
-	"C_Truck_02_covered_F",.25,
-	"C_Offroad_01_covered_F",.5,
-	"C_Offroad_01_comms_F",.5,
-	"C_Offroad_01_covered_F",.75,
-	"C_Offroad_01_repair_F",.15,
-	"C_Quadbike_01_F",.1,
-	"C_SUV_01_F",.25,
-	"C_Van_01_transport_F",.15,
-	"C_Van_01_box_F",.10,
-	"B_LSV_01_unarmed_F",.15];
+	_vehArray = "";
+	
+	switch _faction do {
+		case "TRB": { _vehArray = ["TRBVeh"] call FN_arrayReturn; };
+		case "US": { _vehArray = ["USVeh"] call FN_arrayReturn; };
+		case "RU": { _vehArray = ["RUVeh"] call FN_arrayReturn; };
+		case "ROA": { _vehArray = ["ROAVeh"] call FN_arrayReturn; };
+		case "PMC": { _vehArray = ["PMCVeh"] call FN_arrayReturn; };
+		case "ALF": { _vehArray = ["ALFVeh"] call FN_arrayReturn; };
+		default { _vehArray = ["defaultVeh"] call FN_arrayReturn; };
+	};
 	
 	private _playersInTrigger = [];
 	private _index = 0;
@@ -57,6 +51,10 @@ if (isServer) then {
 		_command = _unitSkillsArray select 7;
 		_spotDist = _unitSkillsArray select 8;
 		_reload = _unitSkillsArray select 9;
+		_sfGroup = _unitSkillsArray select 10;
+		
+		_sfOverride = false;
+		if (random _sfGroup < 1) then { _sfOverride = true; };
 			
 		_breakOut = false;
 		while {!(_breakOut)} do {
@@ -88,15 +86,8 @@ if (isServer) then {
 			_numUnits = ceil (random 2)+1;
 			for "_i" from 0 to _numUnits do {
 				_newAI = _grpAmbush createUnit [_unit,_pos,[],15,"NONE"];
-				[_faction, _newAI, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
-				_newAI setSkill ["aimingAccuracy", _aim];
-				_newAI setSkill ["aimingSpeed", _aimSpeed];
-				_newAI setSkill ["spotTime", _spot];
-				_newAI setSkill ["courage", _courage];
-				_newAI setSkill ["aimingShake", _aimShake];
-				_newAI setSkill ["commanding", _command];
-				_newAI setSkill ["spotDistance", _spotDist];
-				_newAI setSkill ["reloadSpeed", _reload];
+				[_faction, _newAI, false, false, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+				[_newAI,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] execVM "AISpawners\aiSubScripts\FN_setSkill.sqf";
 				_newAI moveInAny _veh;
 				sleep .01;
 			};
@@ -105,31 +96,17 @@ if (isServer) then {
 			for "_i" from 0 to _numUnits do {
 				if (random 1 > _meleeChance) then {
 					_newAI = _grpAmbush createUnit [_unit,_pos,[],15,"NONE"];
-					[_faction, _newAI, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
-					_newAI setSkill ["aimingAccuracy", _aim];
-					_newAI setSkill ["aimingSpeed", _aimSpeed];
-					_newAI setSkill ["spotTime", _spot];
-					_newAI setSkill ["courage", _courage];
-					_newAI setSkill ["aimingShake", _aimShake];
-					_newAI setSkill ["commanding", _command];
-					_newAI setSkill ["spotDistance", _spotDist];
-					_newAI setSkill ["reloadSpeed", _reload];		
+					[_faction, _newAI, false, false, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+					[_newAI,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] execVM "AISpawners\aiSubScripts\FN_setSkill.sqf";	
 					if (_trader AND (random 1 > .75)) then {
 						[_newAI] execVM "Economy System\economySystem.sqf";
 					};					
 				} else {
 					grpTemp = createGroup east;
 					_newAI = grpTemp createUnit ["O_soldier_Melee_RUSH", _pos, [], 1, "NONE"];
-					[_faction, _newAI, true, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
+					[_faction, _newAI, true, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
 					[_newAI] joinSilent _grpAmbush;
-					_newAI setSkill ["aimingAccuracy", _aim];
-					_newAI setSkill ["aimingSpeed", _aimSpeed];
-					_newAI setSkill ["spotTime", _spot];
-					_newAI setSkill ["courage", _courage];
-					_newAI setSkill ["aimingShake", _aimShake];
-					_newAI setSkill ["commanding", _command];
-					_newAI setSkill ["spotDistance", _spotDist];
-					_newAI setSkill ["reloadSpeed", _reload];					
+					[_newAI,_aim,_aimSpeed,_spot,_courage,_aimShake,_command,_spotDist,_reload] execVM "AISpawners\aiSubScripts\FN_setSkill.sqf";				
 				};
 				sleep .01;
 			};

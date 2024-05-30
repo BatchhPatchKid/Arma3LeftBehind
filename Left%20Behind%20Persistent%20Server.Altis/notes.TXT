@@ -5,24 +5,17 @@ To do:
 	1) eliminate a sniper in an area X
 	2) Destroy a designated vehicle
 	
-
-- have AI spawn with GL rounds if they have a grenade launcher
 - you're instincts tell you something is off is broken in dedicated server
 - disable group indicator
 - random event spawned at the southern island
 - add more to the lootbox spawner
 - karma system for killing traders
-- flag not working (won't delete after being set down and addAction not registering)
-	a) working after disconnecting than connecting again
-- diary records still not showing up for players
-- players need a way to spawn crates for storage
 - mainCamp script should spawn the lootbox
-- stationary task, the camp did not spawn (BB was the faction)
-- Operation Trebuchet loaded on the server for some fucking reason
 - FN_setSkill both a script and a function in spawnAI
+- bodies despawning around the flag - unknown why/bad report?
+- maybe dskha for russian factions
 
 Update:
-
 
 
 
