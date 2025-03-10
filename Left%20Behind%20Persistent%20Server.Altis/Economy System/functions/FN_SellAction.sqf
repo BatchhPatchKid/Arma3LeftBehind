@@ -1,34 +1,34 @@
 params ["_container", "_caller", "_actionId", "_arguments"];
 
-execVM "ArrayDatabase.sqf";
-
-headgearArraySelectionRare = ["headgearExpensive"] call FN_arrayReturn;
-gasArraySelection = ["gas"] call FN_arrayReturn;
-coolClothing = ["clothingExpensive"] call FN_arrayReturn;
-monoNVG = ["monoNVG"] call FN_arrayReturn;
-binoNVG = ["binoNVG"] call FN_arrayReturn;
-quadNVG = ["quadNVG"] call FN_arrayReturn;
-explosive = ["explosive"] call FN_arrayReturn;
-thrownExplosives = ["thrownExplosives"] call FN_arrayReturn;
-melee = ["melee"] call FN_arrayReturn;
-pistol = ["pistol"] call FN_arrayReturn;
-autoPistol = ["autoPistol"] call FN_arrayReturn;
-launcherArraySelection = ["launcher"] call FN_arrayReturn;
-smg = ["smg"] call FN_arrayReturn;
-shotgun = ["shotgun"] call FN_arrayReturn;
-assualtRifle = ["assualtRifle"] call FN_arrayReturn;
-LMG = ["LMG"] call FN_arrayReturn;
-DMR = ["DMR"] call FN_arrayReturn;
-sniperRifle = ["sniperRifle"] call FN_arrayReturn;
-antiMaterial = ["antiMaterial"] call FN_arrayReturn;
-opticsArraySelection = ["optics"] call FN_arrayReturn;
-opticsArraySelectionRare = ["opticsExpensive"] call FN_arrayReturn;
-muzzleArraySelection = ["muzzle"] call FN_arrayReturn;
-muzzleArraySelectionRare = ["muzzleExpensive"] call FN_arrayReturn;
-railArraySelection = ["rail"] call FN_arrayReturn;
-railArraySelectionRare = ["railExpensive"] call FN_arrayReturn;
-backpackSelection = ["backpack"] call FN_arrayReturn;
-backpackSelectionRare = ["backpackExpensive"] call FN_arrayReturn;
+headgearArraySelectionRare = ["headgearExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+gasArraySelection = ["gas"] call (missionNamespace getVariable "FN_arrayReturn");
+coolClothing = ["clothingExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+monoNVG = ["monoNVG"] call (missionNamespace getVariable "FN_arrayReturn");
+binoNVG = ["binoNVG"] call (missionNamespace getVariable "FN_arrayReturn");
+quadNVG = ["quadNVG"] call (missionNamespace getVariable "FN_arrayReturn");
+explosive = ["explosive"] call (missionNamespace getVariable "FN_arrayReturn");
+thrownExplosives = ["thrownExplosives"] call (missionNamespace getVariable "FN_arrayReturn");
+melee = ["melee"] call (missionNamespace getVariable "FN_arrayReturn");
+pistol = ["pistol"] call (missionNamespace getVariable "FN_arrayReturn");
+autoPistol = ["autoPistol"] call (missionNamespace getVariable "FN_arrayReturn");
+launcherArraySelection = ["launcher"] call (missionNamespace getVariable "FN_arrayReturn");
+smg = ["smg"] call (missionNamespace getVariable "FN_arrayReturn");
+shotgun = ["shotgun"] call (missionNamespace getVariable "FN_arrayReturn");
+assualtRifle = ["assualtRifle"] call (missionNamespace getVariable "FN_arrayReturn");
+LMG = ["LMG"] call (missionNamespace getVariable "FN_arrayReturn");
+DMR = ["DMR"] call (missionNamespace getVariable "FN_arrayReturn");
+sniperRifle = ["sniperRifle"] call (missionNamespace getVariable "FN_arrayReturn");
+antiMaterial = ["antiMaterial"] call (missionNamespace getVariable "FN_arrayReturn");
+opticsArraySelection = ["optics"] call (missionNamespace getVariable "FN_arrayReturn");
+opticsArraySelectionRare = ["opticsExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+muzzleArraySelection = ["muzzle"] call (missionNamespace getVariable "FN_arrayReturn");
+muzzleArraySelectionRare = ["muzzleExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+railArraySelection = ["rail"] call (missionNamespace getVariable "FN_arrayReturn");
+railArraySelectionRare = ["railExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+backpackSelection = ["backpack"] call (missionNamespace getVariable "FN_arrayReturn");
+backpackSelectionRare = ["backpackExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+vestSelectionRare = ["vestExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+mutantMeat = ["rvg_Buffalo_Meat_Cooked","rvg_Buffalo_Meat"];
 
 FN_RemoveItem = {
 	params ["_container", "_caller", "_actionId", "_arrayToCheck", "_amountToSell", "_item"];
@@ -43,6 +43,7 @@ FN_RemoveItem = {
 _moneyPayedBack = 0;
 {
 	if (_x != "rvg_money") then {
+		_moneyPayedBack = _moneyPayedBack + ([_container, _caller, _actionId, mutantMeat, 1000, _x] call FN_RemoveItem);
 		_moneyPayedBack = _moneyPayedBack + ([_container, _caller, _actionId, headgearArraySelectionRare, 10, _x] call FN_RemoveItem);
 		_moneyPayedBack = _moneyPayedBack + ([_container, _caller, _actionId, gasArraySelection, 3, _x] call FN_RemoveItem);
 		_moneyPayedBack = _moneyPayedBack + ([_container, _caller, _actionId, coolClothing, 10, _x] call FN_RemoveItem);
@@ -70,6 +71,7 @@ _moneyPayedBack = 0;
 		_moneyPayedBack = _moneyPayedBack + ([_container, _caller, _actionId, muzzleArraySelectionRare, 50, _x] call FN_RemoveItem);
 		_moneyPayedBack = _moneyPayedBack + ([_container, _caller, _actionId, backpackSelection, 10, _x] call FN_RemoveItem);
 		_moneyPayedBack = _moneyPayedBack + ([_container, _caller, _actionId, backpackSelectionRare, 30, _x] call FN_RemoveItem);
+		_moneyPayedBack = _moneyPayedBack + ([_container, _caller, _actionId, vestSelectionRare, 30, _x] call FN_RemoveItem);
 		if (!(isNil "_x")) then {
 			_container removeItemFromBackpack _x;
 			_moneyPayedBack = _moneyPayedBack + 1;

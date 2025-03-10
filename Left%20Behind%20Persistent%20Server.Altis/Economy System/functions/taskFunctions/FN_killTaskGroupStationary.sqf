@@ -1,53 +1,35 @@
 params ["_container", "_caller", "_actionId"];
 if (isNull (currentTask _caller)) then {
 	hintSilent format ["The following group has had a bounty put on their leader. Eliminate them for a reward, %1", (name _caller)];
-	_factionArray = ["Bandit", .50,"BB", .25,"SU", .25,"DT", .35,"NH", .35,"PF", .40,"ALF", .10,"WO", .10,"RC", .15,"TRB", .10,"US", .02,"RU", .02];
-	_faction = _factionArray call BIS_fnc_selectRandomWeighted;
-	_numUnits = ceil(random 7)+6;
-	_minDist = 700;
-	_maxDist = 2500;
-	_pos = [getPos _caller, _minDist, _maxDist, 10, 0, 20, 0] call BIS_fnc_findSafePos;
-	_posMarker = [_pos, 0, 300, 0, 0, 20, 0] call BIS_fnc_findSafePos;
+	private _factionArray = ["Bandit", .50,"BB", .25,"SU", .25,"DT", .35,"NH", .35,"PF", .40,"ALF", .10,"WO", .10,"RC", .15,"TRB", .10,"US", .02,"RU", .02];
+	private _faction = _factionArray call BIS_fnc_selectRandomWeighted;
+	private _numUnits = ceil(random 7)+6;
+	private _minDist = 700;
+	private _maxDist = 2500;
+	private _pos = [getPos _caller, _minDist, _maxDist, 10, 0, 20, 0] call BIS_fnc_findSafePos;
+	private _posMarker = [_pos, 0, 300, 0, 0, 20, 0] call BIS_fnc_findSafePos;
 	
-	[_faction, _numUnits, _pos, "Camp", RESISTANCE] execVM "AISpawners\aiSubScripts\spawnAI.sqf";
+	private _flag = "Flag_Red_F" createVehicle _pos;
 	
-	_flag = "Flag_Red_F" createVehicle _pos;
+	[_faction, _numUnits, _pos, "Camp", RESISTANCE] call (missionNamespace getVariable "FN_spawnAI");
 	
-	_unitSkillsArray = [_faction, _pos] call compile preprocessFileLineNumbers "AISpawners\aiSubScripts\factionSideAndDifficulty.sqf";
-	_side = RESISTANCE; // Must be hostile to the players no matter what
-	_unit = _unitSkillsArray select 1;
-	_aim = _unitSkillsArray select 2;
-	_aimSpeed = _unitSkillsArray select 3;
-	_spot = _unitSkillsArray select 4;
-	_courage = _unitSkillsArray select 5;
-	_aimShake = _unitSkillsArray select 6;
-	_command = _unitSkillsArray select 7;
-	_spotDist = _unitSkillsArray select 8;
-	_reload = _unitSkillsArray select 9;
-	_sfGroup = _unitSkillsArray select 10;
+	
+	private _unitSkillsArray = [_faction, _pos] call FN_getFactionSkills;
+	private _side = RESISTANCE; // Must be hostile to the players no matter what
+	private _unit = _unitSkillsArray select 1;
 	
 	_sfOverride = false;
 	if (random _sfGroup < 1) then { _sfOverride = true; };
 
-	_meleeChance = [_faction] call compile preprocessFileLineNumbers "AISpawners\aiSubScripts\meleeChance.sqf";
-
-	_groupBandit = createGroup [_side, true];
+	private _groupBandit = createGroup [_side, true];
 
 	private ["_newAI"]; // instantiated so I don't get an error from it only being defined in 'if' statements
 
 	_newAI = _groupBandit createUnit [_unit, _pos, [], 15, "NONE"];
-	[_faction, _newAI, false, true, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
-	_newAI setSkill ["aimingAccuracy", _aim];
-	_newAI setSkill ["aimingSpeed", _aimSpeed];
-	_newAI setSkill ["spotTime", _spot];
-	_newAI setSkill ["courage", _courage];
-	_newAI setSkill ["aimingShake", _aimShake];
-	_newAI setSkill ["commanding", _command];
-	_newAI setSkill ["spotDistance", _spotDist];
-	_newAI setSkill ["reloadSpeed", _reload];
+	[_faction, _newAI, false, true, _sfOverride] call (missionNamespace getVariable "FN_equipAI");
+	[_newAI, _unitSkillsArray select 2, _unitSkillsArray select 3, _unitSkillsArray select 4, _unitSkillsArray select 5, _unitSkillsArray select 6, _unitSkillsArray select 7, _unitSkillsArray select 8, _unitSkillsArray select 9] call FN_setUnitSkills;
 	
-	_rndDouble = random 100;
-	_rndTaskID = str (_rndDouble);
+	_rndTaskID = str (random 100);
 
 	[_caller, _rndTaskID, [format ["Eliminate the target to earn $120. The group is held up within 300 meters of the marker. It does not matter if you or someone else kills him, just make sure the job gets done. The faction the target is apart of is %1", _faction], "Eliminate the Stationary Target"], _posMarker, "ASSIGNED", 0, true, "kill", false] call BIS_fnc_taskCreate;
 	sleep 5;

@@ -2,13 +2,11 @@ if (isServer) then {
 	 player setVariable ["Temp", bodyTemp, true];
 	params ["_trigger", "_type"];
 
-	execVM "ArrayDatabase.sqf";
-
-	private _coldWeatherClothing = ["coldWeatherClothing"] call FN_arrayReturn;
-	private _hotWeatherClothing = ["hotWeatherClothing"] call FN_arrayReturn;
-	private _coldWeatherGoggles = ["coldWeatherGoggles"] call FN_arrayReturn;
-	private _coldWeatherHeadgear = ["coldWeatherHeadgear"] call FN_arrayReturn;
-	private _coldVests = ["coldVests"] call FN_arrayReturn;
+	private _coldWeatherClothing = ["coldWeatherClothing"] call (missionNamespace getVariable "FN_arrayReturn");
+	private _hotWeatherClothing = ["hotWeatherClothing"] call (missionNamespace getVariable "FN_arrayReturn");
+	private _coldWeatherGoggles = ["coldWeatherGoggles"] call (missionNamespace getVariable "FN_arrayReturn");
+	private _coldWeatherHeadgear = ["coldWeatherHeadgear"] call (missionNamespace getVariable "FN_arrayReturn");
+	private _coldVests = ["coldVests"] call (missionNamespace getVariable "FN_arrayReturn");
 
 	private _weatherCoe = 1;
 

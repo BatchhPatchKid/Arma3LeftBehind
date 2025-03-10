@@ -1,11 +1,266 @@
 params ["_container"];
 
-//Selling Items in _Crate
-_containerSellAction = _container addAction ["Sell Items in Crate", FN_SellAction_Crate,[],1.5,true,false,"","true",3];
+FN_PurchaseMag_Crate = {
+	params ["_target", "_caller", "_actionId", "_args"];
+	
+	_bankNotesCount = { _x == "rvg_money" } count magazines _caller;
+	
+	if (_bankNotesCount == 0) exitWith {
+		hintSilent "Sorry, but yo ass broke";
+		sleep 3;
+		hintSilent "";
+	};
+	
+	if (_bankNotesCount < (_args select 1) AND _bankNotesCount != 0) then {
+		hintSilent "Sorry, not enough money to purchase item";
+		sleep 3;
+		hintSilent "";
+	} else {
+		_primaryWeapon = primaryWeapon _caller;
+		_secondaryWeapon = secondaryWeapon _caller;
+		_handgunWeapon = handgunWeapon _caller;
+		if (!("" == _primaryWeapon) AND (_args select 0) == 0) then {
+
+			_index = 0;
+			while {_index < (_args select 1)} do {
+				_caller removeItem "rvg_money";
+				_index = _index + 1;
+			};
+			
+			// Get the available magazines for the primary weapon
+			_magazines = compatibleMagazines _primaryWeapon;
+			if (count _magazines != 0) then {
+				_target addMagazineCargoGlobal [(_magazines select 0), 1];
+				hintSilent "magazine successfully purchased";
+				sleep 3;
+				hintSilent "";
+			} else {
+				hintSilent "Sorry, but we weren't able to find any magazines in stock for that weapon.";
+			};
+		};
+		if (!("" == _secondaryWeapon) AND (_args select 0) == 1) then {
+			_index = 0;
+			while {_index < (_args select 1)} do {
+				_caller removeItem "rvg_money";
+				_index = _index + 1;
+			};
+			// Get the available magazines for the launcher weapon
+			_magazines = compatibleMagazines _secondaryWeapon;
+			if (count _magazines != 0) then {
+				_target addMagazineCargoGlobal [(_magazines select 0), 1];
+				hintSilent "magazine successfully purchased";
+				sleep 3;
+				hintSilent "";
+			} else {
+				hintSilent "Sorry, but we weren't able to find any magazines in stock for that weapon.";
+			};
+		};
+		if (!("" == _handgunWeapon) AND (_args select 0) == 2) then {
+			_index = 0;
+			while {_index < (_args select 1)} do {
+				_caller removeItem "rvg_money";
+				_index = _index + 1;
+			};
+			// Get the available magazines for the handgun weapon
+			_magazines = compatibleMagazines _handgunWeapon;
+			if (count _magazines != 0) then {
+				_target addMagazineCargoGlobal [(_magazines select 0), 1];
+				hintSilent "magazine successfully purchased";
+				sleep 3;
+				hintSilent "";
+			} else {
+				hintSilent "Sorry, but we weren't able to find any magazines in stock for that weapon.";
+			};
+		};
+	};
+};
+ 
+FN_PurchaseItem_Crate = {
+	params ["_target", "_caller", "_actionId", "_args"];
+	
+	backpackSelection = ["backpack"] call (missionNamespace getVariable "FN_arrayReturn");
+	backpackSelectionRare = ["backpackExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+
+	_itemsPlayer = itemsWithMagazines _target;
+
+	_bankNotesCount = { _x == "rvg_money" } count magazines _caller;
+
+	if (_bankNotesCount == 0) exitWith {
+		hintSilent "Sorry, but yo ass broke";
+		sleep 3;
+		hintSilent "";
+	};
+	if (_bankNotesCount < _args select 1 AND _bankNotesCount != 0) then {
+		hintSilent "Sorry, not enough money to purchase item";
+		sleep 3;
+		hintSilent "";
+	} else {
+		_index = 0;
+		while {_index < _args select 1} do {
+			_caller removeItem "rvg_money";
+			_index = _index + 1;
+		};
+		if ((_args select 0) in backpackSelection or (_args select 0) in backpackSelectionRare) then {
+			_target addBackpackCargoGlobal [(_args select 0), 1];
+			hintSilent "item successfully purchased";
+			sleep 3;
+			hintSilent "";
+		} else {
+			_target addItemCargoGlobal [_args select 0, 1];
+			hintSilent "item successfully purchased";
+			sleep 3;
+			hintSilent "";
+		};
+	};
+};
+
+// SELLING ________________________________________________________________________________________________________________
+
+FN_addMoney = {
+	params ["_container", "_caller", "_actionId", "_arrayToCheck", "_amountToSell", "_item"];
+	_defaultItem = true;
+	if (_item in _arrayToCheck) then {
+		_container addMagazineCargoGlobal ["rvg_money", _amountToSell];
+		_defaultItem = false;
+	};
+	_defaultItem;
+};
+
+FN_SellAction_Crate =  {
+	params ["_container", "_caller", "_actionId", "_arguments"];
+
+	headgearArraySelectionRare = ["headgearExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+	gasArraySelection = ["gas"] call (missionNamespace getVariable "FN_arrayReturn");
+	coolClothing = ["clothingExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+	monoNVG = ["monoNVG"] call (missionNamespace getVariable "FN_arrayReturn");
+	binoNVG = ["binoNVG"] call (missionNamespace getVariable "FN_arrayReturn");
+	quadNVG = ["quadNVG"] call (missionNamespace getVariable "FN_arrayReturn");
+	explosive = ["explosive"] call (missionNamespace getVariable "FN_arrayReturn");
+	thrownExplosives = ["thrownExplosives"] call (missionNamespace getVariable "FN_arrayReturn");
+	melee = ["melee"] call (missionNamespace getVariable "FN_arrayReturn");
+	pistol = ["pistol"] call (missionNamespace getVariable "FN_arrayReturn");
+	autoPistol = ["autoPistol"] call (missionNamespace getVariable "FN_arrayReturn");
+	launcherArraySelection = ["launcher"] call (missionNamespace getVariable "FN_arrayReturn");
+	smg = ["smg"] call (missionNamespace getVariable "FN_arrayReturn");
+	shotgun = ["shotgun"] call (missionNamespace getVariable "FN_arrayReturn");
+	assualtRifle = ["assualtRifle"] call (missionNamespace getVariable "FN_arrayReturn");
+	LMG = ["LMG"] call (missionNamespace getVariable "FN_arrayReturn");
+	DMR = ["DMR"] call (missionNamespace getVariable "FN_arrayReturn");
+	sniperRifle = ["sniperRifle"] call (missionNamespace getVariable "FN_arrayReturn");
+	antiMaterial = ["antiMaterial"] call (missionNamespace getVariable "FN_arrayReturn");
+	opticsArraySelection = ["optics"] call (missionNamespace getVariable "FN_arrayReturn");
+	opticsArraySelectionRare = ["opticsExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+	muzzleArraySelection = ["muzzle"] call (missionNamespace getVariable "FN_arrayReturn");
+	muzzleArraySelectionRare = ["muzzleExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+	railArraySelection = ["rail"] call (missionNamespace getVariable "FN_arrayReturn");
+	railArraySelectionRare = ["railExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+	backpackSelection = ["backpack"] call (missionNamespace getVariable "FN_arrayReturn");
+	backpackSelectionRare = ["backpackExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+	vestSelectionRare = ["vestExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
+	mutantMeat = ["rvg_Buffalo_Meat_Cooked","rvg_Buffalo_Meat"];
+	
+	private _presetContents = [];
+	private _selectedItem = "";
+	private _moneyTracker = 0;
+
+	{
+		_presetContents pushBack [(_x select 0), 1];
+		sleep .01;
+	} forEach weaponsItemsCargo _container;
+
+	private _backpackCargo = getBackpackCargo _container;
+
+	{
+		_presetContents pushBack [_x, (_backpackCargo select 1) select _forEachIndex]; // [name, count]
+		sleep .01;
+	} forEach (_backpackCargo select 0);
+
+	private _magazineCargo = getMagazineCargo _container;
+
+	{
+		_presetContents pushBack [_x, (_magazineCargo select 1) select _forEachIndex]; // [name, count]
+		sleep .01;
+	} forEach (_magazineCargo select 0);
+
+	private _itemCargo = getItemCargo _container;
+
+	{
+		_presetContents pushBack [_x, (_itemCargo select 1) select _forEachIndex];  // [name, count]
+		sleep .01;
+	} forEach (_itemCargo select 0);
+
+
+	{
+		private _defaultItem = true;
+		_selectedItem = _x select 0;
+		if (_selectedItem != "rvg_money") then {
+			_defaultItem = ([_container, _caller, _actionId, mutantMeat, 1000, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, gasArraySelection, 3, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, coolClothing, 10, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, monoNVG, 50, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, binoNVG, 75, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, quadNVG, 200, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, explosive, 20, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, thrownExplosives, 3, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, melee, 3, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, pistol, 3, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, autoPistol, 15, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, launcherArraySelection, 50, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, smg, 15, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, shotgun, 15, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, assualtRifle, 15, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, LMG, 30, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, DMR, 35, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, sniperRifle, 40, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, antiMaterial, 80, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, opticsArraySelection, 10, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, opticsArraySelectionRare, 30, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, railArraySelection, 3, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, railArraySelectionRare, 20, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, muzzleArraySelection, 10, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, muzzleArraySelectionRare, 50, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, backpackSelection, 10, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, backpackSelectionRare, 30, _selectedItem] call FN_addMoney);
+			_defaultItem = ([_container, _caller, _actionId, vestSelectionRare, 30, _selectedItem] call FN_addMoney);
+			if (_defaultItem) then {
+				_container addMagazineCargoGlobal ["rvg_money", _x select 1];
+			};
+		};
+		sleep .01;
+	} forEach _presetContents;
+
+	_presetContents = [];
+
+	private _magazineCargo = getMagazineCargo _container;
+
+	{
+		_presetContents pushBack [_x, (_magazineCargo select 1) select _forEachIndex]; // [name, count]
+		sleep .01;
+	} forEach (_magazineCargo select 0);
+
+	{
+		if ((_x select 0) == "rvg_money") then {
+			_moneyTracker = _x select 1;
+		};
+		sleep .01;
+	} forEach _presetContents;
+
+	clearItemCargoGlobal _container;
+	clearMagazineCargoGlobal _container;
+	clearWeaponCargoGlobal _container;
+	clearBackpackCargoGlobal _container;
+
+	_container addMagazineCargoGlobal ["rvg_money", _moneyTracker];
+	if (_moneyTracker == 0) then {
+		hintSilent format ["What was the point of trying to sell nothing %1?", name _caller];
+	} else {
+		hintSilent format ["%1$ has been added to the crate. Pleasure doing business with you %2", _moneyTracker, name _caller];
+	};
+	
+	_moneyTracker = 0;
+};
 
 //purchasing
-_containerAction = _container addAction ["--------------PURCHASING MENU--------------",{},[],1.5,true,false,"","true",3];
-_clothingAction = _container addAction ["ACCESS CLOTHING CATALOGUE", FN_clothing_Crate,[],1.5,true,false,"","true",3];
 FN_clothing_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	containerAction1 = _container addAction ["Purchase Hot Weather Clothing: $5", FN_PurchaseItem_Crate, ["U_FRITH_RUIN_SDR_Tshirt_blk_cyp",5],1.5,true,false,"","true",3];
@@ -22,7 +277,6 @@ FN_clothing_Crate = {
 	containerAction12 = _container addAction ["Purchase Gas Mask: $20", FN_PurchaseItem_Crate, ["G_RegulatorMask_F",20],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS CHEST RIG CATALOGUE", FN_chestRig_Crate,[],1.5,true,false,"","true",3];
 FN_chestRig_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase Recce Rig(No Armor): $10", FN_PurchaseItem_Crate, ["V_SmershVest_01_radio_F",10],1.5,true,false,"","true",3];
@@ -31,7 +285,7 @@ FN_chestRig_Crate = {
 	_containerAction = _container addAction ["Purchase Carrier Rig (Level 4 Armor): $300", FN_PurchaseItem_Crate, ["V_PlateCarrier2_rgr",300],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase Carrier Special Rig: $500", FN_PurchaseItem_Crate, ["V_PlateCarrierSpec_blk",500],1.5,true,false,"","true",3];
 };
-_containerAction = _container addAction ["ACCESS BACKPACK CATALOGUE", FN_backPack_Crate,[],1.5,true,false,"","true",3];
+
 FN_backPack_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase Messenger Bag: $3", FN_PurchaseItem_Crate, ["B_Messenger_Black_F",3],1.5,true,false,"","true",3];
@@ -46,7 +300,7 @@ FN_backPack_Crate = {
 	_containerAction = _container addAction ["Purchase Radio Pack: $150", FN_PurchaseItem_Crate, ["TFAR_rt1523g_rhs",150],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase Bergen: $300", FN_PurchaseItem_Crate, ["rvg_bergan",300],1.5,true,false,"","true",3];
 };
-_containerAction = _container addAction ["ACCESS PRIMARY WEAPON CATALOGUE", FN_primary_Crate,[],1.5,true,false,"","true",3];
+
 FN_primary_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["-------VANILLA PRIMARY WEAPONS-------",{},[],1.5,true,false,"","true",3];
@@ -150,7 +404,7 @@ FN_primary_Crate = {
 	_containerAction = _container addAction ["Purchase MP7A2: $60", FN_PurchaseItem_Crate, ["rhsusf_weap_MP7A2",60],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase SOCOM 16: $300", FN_PurchaseItem_Crate, ["rhs_weap_m14_socom",300],1.5,true,false,"","true",3];
 };
-_containerAction = _container addAction ["ACCESS SIDEARM CATALOGUE", FN_sidearms_Crate,[],1.5,true,false,"","true",3];
+
 FN_sidearms_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase .45 MACHINE PISTOL: $300", FN_PurchaseItem_Crate, ["DSA_MachinePistol45",300],1.5,true,false,"","true",3];
@@ -191,7 +445,7 @@ FN_sidearms_Crate = {
 	_containerAction = _container addAction ["Purchase WW2 GERMAN KNIFE: $20", FN_PurchaseItem_Crate, ["WBK_survival_weapon_4",20],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase WW2 RUSSIAN KNIFE: $20", FN_PurchaseItem_Crate, ["WBK_survival_weapon_3",20],1.5,true,false,"","true",3];
 };
-_containerAction = _container addAction ["ACCESS LAUNCHER CATALOGUE", FN_launchers_Crate,[],1.5,true,false,"","true",3];
+
 FN_launchers_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase MAAWS MK4 MOD 0: $800", FN_PurchaseItem_Crate, ["launch_MRAWS_green_rail_F",800],1.5,true,false,"","true",3];
@@ -203,7 +457,7 @@ FN_launchers_Crate = {
 	_containerAction = _container addAction ["Purchase TITAN MPRL: $1,000", FN_PurchaseItem_Crate, ["launch_I_Titan_F",1000],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase TITAN MPRL COMPACT: $800", FN_PurchaseItem_Crate, ["launch_O_Titan_short_F",800],1.5,true,false,"","true",3];
 };
-_containerAction = _container addAction ["ACCESS AMMO CATALOGUE", FN_mags_Crate,[],1.5,true,false,"","true",3];
+
 FN_mags_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase Primary Compatible Magazine: $10", FN_PurchaseMag_Crate,[0, 10],1.5,true,false,"","true",3];
@@ -214,7 +468,6 @@ FN_mags_Crate = {
 	_containerAction = _container addAction ["Purchase VOG-25 (RUS): $10", FN_PurchaseItem_Crate, ["rhs_VOG25",10],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS OPTIC CATALOGUE", FN_optics_Crate,[],1.5,true,false,"","true",3];
 FN_optics_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["-------VANILLA OPTICS-------",{},[],1.5,true,false,"","true",3];
@@ -236,9 +489,8 @@ FN_optics_Crate = {
 	_containerAction = _container addAction ["Purchase G33 + XPS3: $200", FN_PurchaseItem_Crate, ["rhsusf_acc_g33_xps3",200],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase M150 RCO(ARD): $450", FN_PurchaseItem_Crate, ["rhsusf_acc_ACOG2",450],1.5,true,false,"","true",3];
 	_containerAction = _container addAction ["Purchase MK. 4 M5 (MRDS): $800", FN_PurchaseItem_Crate, ["rhsusf_acc_LEUPOLDMK4_2_mrds",800],1.5,true,false,"","true",3];
-	
 };
-_containerAction = _container addAction ["ACCESS RAIL ATTACHMENT CATALOGUE", FN_rail_Crate,[],1.5,true,false,"","true",3];
+
 FN_rail_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["-------VANILLA RAIL ATTACHMENTS-------",{},[],1.5,true,false,"","true",3];
@@ -254,7 +506,6 @@ FN_rail_Crate = {
 	_containerAction = _container addAction ["Purchase AN/PEQ-15/M952V: $155", FN_PurchaseItem_Crate, ["rhsusf_acc_anpeq15",155],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS MUZZLE ATTACHMENT CATALOGUE", FN_muzzle_Crate,[],1.5,true,false,"","true",3];
 FN_muzzle_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase PBS-4: $200", FN_PurchaseItem_Crate, ["rhs_acc_pbs4",200],1.5,true,false,"","true",3];
@@ -284,7 +535,6 @@ FN_muzzle_Crate = {
 	_containerAction = _container addAction ["Purchase SOUND SUPPRESSOR (.45 ACP): $125", FN_PurchaseItem_Crate, ["muzzle_snds_acp",125],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS UNDERRAIL ATTACHMENT CATALOGUE", FN_UNDERRAIL_Crate,[],1.5,true,false,"","true",3];
 FN_UNDERRAIL_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase AFG GRIP: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_grip2",25],1.5,true,false,"","true",3];
@@ -299,7 +549,6 @@ FN_UNDERRAIL_Crate = {
 	_containerAction = _container addAction ["Purchase SAW BIPOD: $25", FN_PurchaseItem_Crate, ["rhsusf_acc_saw_bipod",25],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS GRENADES CATALOGUE", FN_GRENADES_Crate,[],1.5,true,false,"","true",3];
 FN_GRENADES_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase CHEMLIGHT HI GREEN: $3", FN_PurchaseItem_Crate, ["ACE_Chemlight_HiGreen",3],1.5,true,false,"","true",3];
@@ -309,7 +558,6 @@ FN_GRENADES_Crate = {
 	_containerAction = _container addAction ["Purchase V40 MINI GRENADE: $15", FN_PurchaseItem_Crate, ["MiniGrenade",15],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS EXPLOSIVES CATALOGUE", FN_EXPLOSIVE_Crate,[],1.5,true,false,"","true",3];
 FN_EXPLOSIVE_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase LARGE IED (DUG-IN): $200", FN_PurchaseItem_Crate, ["IEDLandBig_Remote_Mag",200],1.5,true,false,"","true",3];
@@ -318,7 +566,6 @@ FN_EXPLOSIVE_Crate = {
 	_containerAction = _container addAction ["Purchase M112 DEMO BLOCK: $150", FN_PurchaseItem_Crate, ["DemoCharge_Remote_Mag",150],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS NVG CATALOGUE", FN_NVG_Crate,[],1.5,true,false,"","true",3];
 FN_NVG_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase NV Goggles (Gen 1): $250", FN_PurchaseItem_Crate, ["ACE_NVG_Gen1_Brown",250],1.5,true,false,"","true",3];
@@ -328,7 +575,6 @@ FN_NVG_Crate = {
 	_containerAction = _container addAction ["Purchase ENVG-II: $1,000", FN_PurchaseItem_Crate, ["NVGogglesB_blk_F",1000],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS BINO CATALOGUE", FN_BINO_Crate,[],1.5,true,false,"","true",3];
 FN_BINO_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase BINOCULARS: $5", FN_PurchaseItem_Crate, ["Binocular",5],1.5,true,false,"","true",3];
@@ -336,7 +582,6 @@ FN_BINO_Crate = {
 	_containerAction = _container addAction ["Purchase RANGEFINDER: $100", FN_PurchaseItem_Crate, ["Rangefinder",100],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["ACCESS MISC. CATALOGUE", FN_MISC_Crate,[],1.5,true,false,"","true",3];
 FN_MISC_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	_containerAction = _container addAction ["Purchase TOOLBOX: $100", FN_PurchaseItem_Crate, ["rvg_toolkit",100],1.5,true,false,"","true",3];
@@ -394,7 +639,6 @@ FN_MISC_Crate = {
 	_containerAction = _container addAction ["Purchase ANOMALY DETECTOR: $30", FN_PurchaseItem_Crate, ["DSA_Detector",30],1.5,true,false,"","true",3];
 };
 
-_containerAction = _container addAction ["RESET CATALOGUES", FN_ResetMenu_Crate,[],1.5,true,false,"","true",3];
 FN_ResetMenu_Crate = {
 	params ["_container", "_caller", "_actionId"];
 	removeAllActions _container;
@@ -419,259 +663,22 @@ FN_ResetMenu_Crate = {
 	_containerAction = _container addAction ["RESET CATALOGUES", FN_ResetMenu_Crate,[],1.5,true,false,"","true",3];
 };
 
-FN_PurchaseMag_Crate = {
-	params ["_target", "_caller", "_actionId", "_args"];
-	
-	_bankNotesCount = { _x == "rvg_money" } count magazines _caller;
-	
-	if (_bankNotesCount == 0) then {
-		hintSilent "Sorry, but yo ass broke";
-		sleep 3;
-		hintSilent "";
-	};
-	if (_bankNotesCount < (_args select 1) AND _bankNotesCount != 0) then {
-		hintSilent "Sorry, not enough money to purchase item";
-		sleep 3;
-		hintSilent "";
-	} else {
-		_primaryWeapon = primaryWeapon _caller;
-		_secondaryWeapon = secondaryWeapon _caller;
-		_handgunWeapon = handgunWeapon _caller;
-		if (!("" == _primaryWeapon) AND (_args select 0) == 0) then {
-
-			_index = 0;
-			while {_index < (_args select 1)} do {
-				_caller removeItem "rvg_money";
-				_index = _index + 1;
-			};
-			
-			// Get the available magazines for the primary weapon
-			_magazines = compatibleMagazines _primaryWeapon;
-			if (count _magazines != 0) then {
-				_target addMagazineCargoGlobal [(_magazines select 0), 1];
-				hintSilent "magazine successfully purchased";
-				sleep 3;
-				hintSilent "";
-			} else {
-				hintSilent "Sorry, but we weren't able to find any magazines in stock for that weapon.";
-			};
-		};
-		if (!("" == _secondaryWeapon) AND (_args select 0) == 1) then {
-			_index = 0;
-			while {_index < (_args select 1)} do {
-				_caller removeItem "rvg_money";
-				_index = _index + 1;
-			};
-			// Get the available magazines for the launcher weapon
-			_magazines = compatibleMagazines _secondaryWeapon;
-			if (count _magazines != 0) then {
-				_target addMagazineCargoGlobal [(_magazines select 0), 1];
-				hintSilent "magazine successfully purchased";
-				sleep 3;
-				hintSilent "";
-			} else {
-				hintSilent "Sorry, but we weren't able to find any magazines in stock for that weapon.";
-			};
-		};
-		if (!("" == _handgunWeapon) AND (_args select 0) == 2) then {
-			_index = 0;
-			while {_index < (_args select 1)} do {
-				_caller removeItem "rvg_money";
-				_index = _index + 1;
-			};
-			// Get the available magazines for the handgun weapon
-			_magazines = compatibleMagazines _handgunWeapon;
-			if (count _magazines != 0) then {
-				_target addMagazineCargoGlobal [(_magazines select 0), 1];
-				hintSilent "magazine successfully purchased";
-				sleep 3;
-				hintSilent "";
-			} else {
-				hintSilent "Sorry, but we weren't able to find any magazines in stock for that weapon.";
-			};
-		};
-	};
-};
- 
-FN_PurchaseItem_Crate = {
-	params ["_target", "_caller", "_actionId", "_args"];
-	
-	execVM "ArrayDatabase.sqf";
-	backpackSelection = ["backpack"] call FN_arrayReturn;
-	backpackSelectionRare = ["backpackExpensive"] call FN_arrayReturn;
-
-	_itemsPlayer = itemsWithMagazines _target;
-
-	_bankNotesCount = { _x == "rvg_money" } count magazines _caller;
-
-	if (_bankNotesCount == 0) then {
-		hintSilent "Sorry, but yo ass broke";
-		sleep 3;
-		hintSilent "";
-	};
-	if (_bankNotesCount < _args select 1 AND _bankNotesCount != 0) then {
-		hintSilent "Sorry, not enough money to purchase item";
-		sleep 3;
-		hintSilent "";
-	} else {
-		_index = 0;
-		while {_index < _args select 1} do {
-			_caller removeItem "rvg_money";
-			_index = _index + 1;
-		};
-		if ((_args select 0) in backpackSelection or (_args select 0) in backpackSelectionRare) then {
-			_target addBackpackCargoGlobal [(_args select 0), 1];
-			hintSilent "item successfully purchased";
-			sleep 3;
-			hintSilent "";
-		} else {
-			_target addItemCargoGlobal [_args select 0, 1];
-			hintSilent "item successfully purchased";
-			sleep 3;
-			hintSilent "";
-		};
-	};
-};
-
-// SELLING ________________________________________________________________________________________________________________
-
-FN_addMoney = {
-	params ["_container", "_caller", "_actionId", "_arrayToCheck", "_amountToSell", "_item"];
-	_defaultItem = true;
-	if (_item in _arrayToCheck) then {
-		_container addMagazineCargoGlobal ["rvg_money", _amountToSell];
-		_defaultItem = false;
-	};
-	_defaultItem;
-};
-
-FN_SellAction_Crate =  {
-	params ["_container", "_caller", "_actionId", "_arguments"];
-
-	execVM "ArrayDatabase.sqf";
-	headgearArraySelectionRare = ["headgearExpensive"] call FN_arrayReturn;
-	gasArraySelection = ["gas"] call FN_arrayReturn;
-	coolClothing = ["clothingExpensive"] call FN_arrayReturn;
-	monoNVG = ["monoNVG"] call FN_arrayReturn;
-	binoNVG = ["binoNVG"] call FN_arrayReturn;
-	quadNVG = ["quadNVG"] call FN_arrayReturn;
-	explosive = ["explosive"] call FN_arrayReturn;
-	thrownExplosives = ["thrownExplosives"] call FN_arrayReturn;
-	melee = ["melee"] call FN_arrayReturn;
-	pistol = ["pistol"] call FN_arrayReturn;
-	autoPistol = ["autoPistol"] call FN_arrayReturn;
-	launcherArraySelection = ["launcher"] call FN_arrayReturn;
-	smg = ["smg"] call FN_arrayReturn;
-	shotgun = ["shotgun"] call FN_arrayReturn;
-	assualtRifle = ["assualtRifle"] call FN_arrayReturn;
-	LMG = ["LMG"] call FN_arrayReturn;
-	DMR = ["DMR"] call FN_arrayReturn;
-	sniperRifle = ["sniperRifle"] call FN_arrayReturn;
-	antiMaterial = ["antiMaterial"] call FN_arrayReturn;
-	opticsArraySelection = ["optics"] call FN_arrayReturn;
-	opticsArraySelectionRare = ["opticsExpensive"] call FN_arrayReturn;
-	muzzleArraySelection = ["muzzle"] call FN_arrayReturn;
-	muzzleArraySelectionRare = ["muzzleExpensive"] call FN_arrayReturn;
-	railArraySelection = ["rail"] call FN_arrayReturn;
-	railArraySelectionRare = ["railExpensive"] call FN_arrayReturn;
-	backpackSelection = ["backpack"] call FN_arrayReturn;
-	backpackSelectionRare = ["backpackExpensive"] call FN_arrayReturn;
-
-	private _presetContents = [];
-	private _selectedItem = "";
-	private _moneyTracker = 0;
-
-	{
-		_presetContents pushBack [(_x select 0), 1];
-		sleep .01;
-	} forEach weaponsItemsCargo _container;
-
-	private _backpackCargo = getBackpackCargo _container;
-
-	{
-		_presetContents pushBack [_x, (_backpackCargo select 1) select _forEachIndex]; // [name, count]
-		sleep .01;
-	} forEach (_backpackCargo select 0);
-
-	private _magazineCargo = getMagazineCargo _container;
-
-	{
-		_presetContents pushBack [_x, (_magazineCargo select 1) select _forEachIndex]; // [name, count]
-		sleep .01;
-	} forEach (_magazineCargo select 0);
-
-	private _itemCargo = getItemCargo _container;
-
-	{
-		_presetContents pushBack [_x, (_itemCargo select 1) select _forEachIndex];  // [name, count]
-		sleep .01;
-	} forEach (_itemCargo select 0);
-
-
-	{
-		private _defaultItem = true;
-		_selectedItem = _x select 0;
-		if (_selectedItem != "rvg_money") then {
-			_defaultItem = ([_container, _caller, _actionId, gasArraySelection, 3, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, coolClothing, 10, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, monoNVG, 50, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, binoNVG, 75, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, quadNVG, 200, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, explosive, 20, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, thrownExplosives, 3, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, melee, 3, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, pistol, 3, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, autoPistol, 15, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, launcherArraySelection, 50, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, smg, 15, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, shotgun, 15, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, assualtRifle, 15, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, LMG, 30, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, DMR, 35, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, sniperRifle, 40, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, antiMaterial, 80, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, opticsArraySelection, 10, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, opticsArraySelectionRare, 30, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, railArraySelection, 3, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, railArraySelectionRare, 20, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, muzzleArraySelection, 10, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, muzzleArraySelectionRare, 50, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, backpackSelection, 10, _selectedItem] call FN_addMoney);
-			_defaultItem = ([_container, _caller, _actionId, backpackSelectionRare, 30, _selectedItem] call FN_addMoney);
-			if (_defaultItem) then {
-				_container addMagazineCargoGlobal ["rvg_money", _x select 1];
-			};
-		};
-		sleep .01;
-	} forEach _presetContents;
-
-	_presetContents = [];
-
-	private _magazineCargo = getMagazineCargo _container;
-
-	{
-		_presetContents pushBack [_x, (_magazineCargo select 1) select _forEachIndex]; // [name, count]
-		sleep .01;
-	} forEach (_magazineCargo select 0);
-
-	{
-		if ((_x select 0) == "rvg_money") then {
-			_moneyTracker = _x select 1;
-		};
-		sleep .01;
-	} forEach _presetContents;
-
-	clearItemCargoGlobal _container;
-	clearMagazineCargoGlobal _container;
-	clearWeaponCargoGlobal _container;
-	clearBackpackCargoGlobal _container;
-
-	_container addMagazineCargoGlobal ["rvg_money", _moneyTracker];
-	if (_moneyTracker == 0) then {
-		hintSilent format ["What was the point of trying to sell nothing %1?", name _caller];
-	} else {
-		hintSilent format ["%1$ has been added to the crate. Pleasure doing business with you %2", _moneyTracker, name _caller];
-	};
-	
-	_moneyTracker = 0;
-};
+_containerSellAction = _container addAction ["Sell Items in Crate", FN_SellAction_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["--------------PURCHASING MENU--------------",{},[],1.5,true,false,"","true",3];
+_clothingAction = _container addAction ["ACCESS CLOTHING CATALOGUE", FN_clothing_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS CHEST RIG CATALOGUE", FN_chestRig_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS BACKPACK CATALOGUE", FN_backPack_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS PRIMARY WEAPON CATALOGUE", FN_primary_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS SIDEARM CATALOGUE", FN_sidearms_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS LAUNCHER CATALOGUE", FN_launchers_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS AMMO CATALOGUE", FN_mags_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS OPTIC CATALOGUE", FN_optics_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS RAIL ATTACHMENT CATALOGUE", FN_rail_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS MUZZLE ATTACHMENT CATALOGUE", FN_muzzle_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS UNDERRAIL ATTACHMENT CATALOGUE", FN_UNDERRAIL_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS GRENADES CATALOGUE", FN_GRENADES_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS EXPLOSIVES CATALOGUE", FN_EXPLOSIVE_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS NVG CATALOGUE", FN_NVG_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS BINO CATALOGUE", FN_BINO_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["ACCESS MISC. CATALOGUE", FN_MISC_Crate,[],1.5,true,false,"","true",3];
+_containerAction = _container addAction ["RESET CATALOGUES", FN_ResetMenu_Crate,[],1.5,true,false,"","true",3];

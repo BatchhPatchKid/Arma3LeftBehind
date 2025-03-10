@@ -22,23 +22,7 @@ if (isNull (currentTask _caller)) then {
 	[_newAI, _rifle, 5] call BIS_fnc_addWeapon;
 	_newAI addPrimaryWeaponItem _scope;
 	
-	_aim = 1;
-	_aimSpeed = 1;
-	_spot = 1;
-	_courage = 1;
-	_aimShake = 1;
-	_command = 1;
-	_spotDist = 1;
-	_reload = 1;
-	
-	_newAI setSkill ["aimingAccuracy", _aim];
-	_newAI setSkill ["aimingSpeed", _aimSpeed];
-	_newAI setSkill ["spotTime", _spot];
-	_newAI setSkill ["courage", _courage];
-	_newAI setSkill ["aimingShake", _aimShake];
-	_newAI setSkill ["commanding", _command];
-	_newAI setSkill ["spotDistance", _spotDist];
-	_newAI setSkill ["reloadSpeed", _reload];
+	[_newAI, 1, 1, 1, 1, 1, 1, 1, 1] call FN_setUnitSkills;
 	
 	_waypoint1 = _sniperGrp addWaypoint [([_pos, 200, 400, 5, 0, 20, 0] call BIS_fnc_findSafePos), 0];
 	_waypoint1 setWaypointType "MOVE";
@@ -49,7 +33,7 @@ if (isNull (currentTask _caller)) then {
 	_rndDouble = random 100;
 	_rndTaskID = str (_rndDouble);
 
-	[_caller, _rndTaskID, [format ["Eliminate the target to earn $150. The sniper will be within 500 meters of the objective marker. It does not matter if you or someone else kills him, just make sure the job gets done."], "Eliminate the Rogue Sniper", ""], _pos, "ASSIGNED", 0, true, "kill", false] call BIS_fnc_taskCreate;
+	[_caller, _rndTaskID, [format ["Eliminate the target to earn $100. The sniper will be within 500 meters of the objective marker. It does not matter if you or someone else kills him, just make sure the job gets done."], "Eliminate the Rogue Sniper", ""], _pos, "ASSIGNED", 0, true, "kill", false] call BIS_fnc_taskCreate;
 	sleep 5;
 	while {true} do { // Checking to see if the task has been complete
 		if ((isNull (currentTask _caller))) exitWith {
@@ -67,7 +51,7 @@ if (isNull (currentTask _caller)) then {
 				[_rndTaskID,"SUCCEEDED"] call BIS_fnc_taskSetState; 
 				[_rndTaskID, true] call BIS_fnc_deleteTask;
 				hintSilent "Task has been completed, receive your reward at the contractor's office";
-				for "_i" from 1 to 150 do {
+				for "_i" from 1 to 100 do {
 					if (_caller canAddItemToBackpack "rvg_money") then {
 						_caller addItemToBackpack "rvg_money"; 
 						hintSilent format ["All of the amount owed to you ($%2) has been put in your backpack, %1. Good work out there.", (name _caller), 150];

@@ -10,18 +10,9 @@ if (isNull (currentTask _caller)) then {
 	
 	_stoneSaver = "Land_BluntStone_01" createVehicle _pos;
 	
-	_unitSkillsArray = [_faction, _pos] call compile preprocessFileLineNumbers "AISpawners\aiSubScripts\factionSideAndDifficulty.sqf";
+	private _unitSkillsArray = [_faction, _pos] call FN_getFactionSkills;
 	_side = RESISTANCE; // Must be hostile to the players no matter what
 	_unit = "I_G_Survivor_F";
-	_aim = _unitSkillsArray select 2;
-	_aimSpeed = _unitSkillsArray select 3;
-	_spot = _unitSkillsArray select 4;
-	_courage = _unitSkillsArray select 5;
-	_aimShake = _unitSkillsArray select 6;
-	_command = _unitSkillsArray select 7;
-	_spotDist = _unitSkillsArray select 8;
-	_reload = _unitSkillsArray select 9;
-	_sfGroup = _unitSkillsArray select 10;
 	
 	_sfOverride = false;
 	if (random _sfGroup < 1) then { _sfOverride = true; };
@@ -33,42 +24,20 @@ if (isNull (currentTask _caller)) then {
 	private ["_newAI"]; // instantiated so I don't get an error from it only being defined in 'if' statements
 
 	_newAI = _groupBandit createUnit [_unit, _pos, [], 15, "NONE"];
-	[_faction, _newAI, false, true, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
-	_newAI setSkill ["aimingAccuracy", _aim];
-	_newAI setSkill ["aimingSpeed", _aimSpeed];
-	_newAI setSkill ["spotTime", _spot];
-	_newAI setSkill ["courage", _courage];
-	_newAI setSkill ["aimingShake", _aimShake];
-	_newAI setSkill ["commanding", _command];
-	_newAI setSkill ["spotDistance", _spotDist];
-	_newAI setSkill ["reloadSpeed", _reload];
+	[_faction, _newAI, false, true, _sfOverride] call (missionNamespace getVariable "FN_equipAI");
+	[_newAI, _unitSkillsArray select 2, _unitSkillsArray select 3, _unitSkillsArray select 4, _unitSkillsArray select 5, _unitSkillsArray select 6, _unitSkillsArray select 7, _unitSkillsArray select 8, _unitSkillsArray select 9] call FN_setUnitSkills;
 
 	_maxBandits = ceil(random 5)+4;
 	for "_i" from 0 to _maxBandits do {
 		if (random 1 > _meleeChance) then {
 			BanditUnit = _groupBandit createUnit [_unit, _pos, [], 15, "NONE"];
-			[_faction, BanditUnit, false, true, _sfOverride] execVM "AISpawners\aiSubScripts\equipAI.sqf";
-			BanditUnit setSkill ["aimingAccuracy", _aim];
-			BanditUnit setSkill ["aimingSpeed", _aimSpeed];
-			BanditUnit setSkill ["spotTime", _spot];
-			BanditUnit setSkill ["courage", _courage];
-			BanditUnit setSkill ["aimingShake", _aimShake];
-			BanditUnit setSkill ["commanding", _command];
-			BanditUnit setSkill ["spotDistance", _spotDist];
-			BanditUnit setSkill ["reloadSpeed", _reload];
+			[_faction, BanditUnit, false, true, _sfOverride] call (missionNamespace getVariable "FN_equipAI");
+			[BanditUnit, _unitSkillsArray select 2, _unitSkillsArray select 3, _unitSkillsArray select 4, _unitSkillsArray select 5, _unitSkillsArray select 6, _unitSkillsArray select 7, _unitSkillsArray select 8, _unitSkillsArray select 9] call FN_setUnitSkills;
 		} else {
 			_grpTemp = createGroup east;
 			BanditUnit = _grpTemp createUnit ["O_soldier_Melee_RUSH",([_pos, 0, 10, 3, 0, 20, 0,[],[]] call BIS_fnc_findSafePos),[],1,"NONE"];
-			[_faction, BanditUnit, true, false, false] execVM "AISpawners\aiSubScripts\equipAI.sqf";
-			[BanditUnit] joinSilent _groupBandit;
-			BanditUnit setSkill ["aimingAccuracy", _aim];
-			BanditUnit setSkill ["aimingSpeed", _aimSpeed];
-			BanditUnit setSkill ["spotTime", _spot];
-			BanditUnit setSkill ["courage", _courage];
-			BanditUnit setSkill ["aimingShake", _aimShake];
-			BanditUnit setSkill ["commanding", _command];
-			BanditUnit setSkill ["spotDistance", _spotDist];
-			BanditUnit setSkill ["reloadSpeed", _reload];
+			[_faction, BanditUnit, true, false, false] call (missionNamespace getVariable "FN_equipAI");
+			[BanditUnit, _unitSkillsArray select 2, _unitSkillsArray select 3, _unitSkillsArray select 4, _unitSkillsArray select 5, _unitSkillsArray select 6, _unitSkillsArray select 7, _unitSkillsArray select 8, _unitSkillsArray select 9] call FN_setUnitSkills;
 		};
 		sleep .01;
 	};

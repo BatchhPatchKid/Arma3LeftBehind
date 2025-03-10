@@ -7,9 +7,6 @@ clearAllItemsFromBackpack _container;
 //Tasks
 [_container, ["ACCESS TASK CATALOGUE", "Economy System\traderTasks.sqf",[],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
 
-//Selling
-[_container, ["Sell Items to Trader", "Economy System\functions\FN_SellAction.sqf",[],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
-
 //Purchasing
 [_container, ["--------------PURCHASING MENU--------------",{},[],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];
 [_container, ["ACCESS CLOTHING CATALOGUE", "Economy System\functions\actionFunctions\FN_clothing.sqf",[],1.5,true,false,"","true",3]] remoteExec ['addAction', 0, _container];

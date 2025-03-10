@@ -1,13 +1,11 @@
 // Initial variable declarations
 
-execVM "ArrayDatabase.sqf";
-
 bodyTemp = 98.6;
-private _coldWeatherClothing = ["coldWeatherClothing"] call FN_arrayReturn;
-private _hotWeatherClothing = ["hotWeatherClothing"] call FN_arrayReturn;
-private _coldWeatherGoggles = ["coldWeatherGoggles"] call FN_arrayReturn;
-private _coldWeatherHeadgear = ["coldWeatherHeadgear"] call FN_arrayReturn;
-private _coldVests = ["coldVests"] call FN_arrayReturn;
+private _coldWeatherClothing = ["coldWeatherClothing"] call (missionNamespace getVariable "FN_arrayReturn");
+private _hotWeatherClothing = ["hotWeatherClothing"] call (missionNamespace getVariable "FN_arrayReturn");
+private _coldWeatherGoggles = ["coldWeatherGoggles"] call (missionNamespace getVariable "FN_arrayReturn");
+private _coldWeatherHeadgear = ["coldWeatherHeadgear"] call (missionNamespace getVariable "FN_arrayReturn");
+private _coldVests = ["coldVests"] call (missionNamespace getVariable "FN_arrayReturn");
 private _coldUniform = 1; // lower is better
 private _coldRain = 0; // higher is better
 private _fireCancel = 1; // stops cold from being as brutal due to fire being close to player
@@ -18,14 +16,12 @@ player setVariable ["Temp", 98.6, true];
 
 FN_temperature = {
 	_handle = 0 spawn {
-	
-		execVM "ArrayDatabase.sqf";
 		
-		private _coldWeatherClothing = ["coldWeatherClothing"] call FN_arrayReturn;
-		private _hotWeatherClothing = ["hotWeatherClothing"] call FN_arrayReturn;
-		private _coldWeatherGoggles = ["coldWeatherGoggles"] call FN_arrayReturn;
-		private _coldWeatherHeadgear = ["coldWeatherHeadgear"] call FN_arrayReturn;
-		private _coldVests = ["coldVests"] call FN_arrayReturn;
+		private _coldWeatherClothing = ["coldWeatherClothing"] call (missionNamespace getVariable "FN_arrayReturn");
+		private _hotWeatherClothing = ["hotWeatherClothing"] call (missionNamespace getVariable "FN_arrayReturn");
+		private _coldWeatherGoggles = ["coldWeatherGoggles"] call (missionNamespace getVariable "FN_arrayReturn");
+		private _coldWeatherHeadgear = ["coldWeatherHeadgear"] call (missionNamespace getVariable "FN_arrayReturn");
+		private _coldVests = ["coldVests"] call (missionNamespace getVariable "FN_arrayReturn");
 
 		_playerUniform = uniform player;
 		_playerHeadgear = headgear player;
@@ -56,6 +52,10 @@ FN_temperature = {
 		sleep 6;
 		hintSilent "";
 	};
+};
+
+FN_getTemp = {
+	bodyTemp;
 };
 
 getCalculatedBodyTempAndHealth = {
@@ -124,37 +124,40 @@ getCalculatedBodyTempAndHealth = {
     };
 
     if (_time < 4 || _time > 20) then { // Night time
-        if (_playerAlt > 450) then { _bodyTempCalc = ((0.35 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 400 && _playerAlt <= 450) then { _bodyTempCalc = _fireCancel * ((0.033 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 300 && _playerAlt <= 350) then { _bodyTempCalc = _fireCancel * ((0.031 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 250 && _playerAlt <= 300) then { _bodyTempCalc = _fireCancel * ((0.029 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 200 && _playerAlt <= 250) then { _bodyTempCalc = _fireCancel * ((0.027 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 150 && _playerAlt <= 200) then { _bodyTempCalc = _fireCancel * ((0.025 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 100 && _playerAlt <= 150) then { _bodyTempCalc = _fireCancel * ((0.023 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 50 && _playerAlt <= 100) then { _bodyTempCalc = _fireCancel * ((0.021 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 0 && _playerAlt <= 50) then { _bodyTempCalc = _fireCancel * ((0.019 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 450) then { _bodyTempCalc = _fireCancel * ((0.03556 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 400 && _playerAlt <= 450) then { _bodyTempCalc = _fireCancel * ((0.03048 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 300 && _playerAlt <= 350) then { _bodyTempCalc = _fireCancel * ((0.02667 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 250 && _playerAlt <= 300) then { _bodyTempCalc = _fireCancel * ((0.02370 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 200 && _playerAlt <= 250) then { _bodyTempCalc = _fireCancel * ((0.02133 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 150 && _playerAlt <= 200) then { _bodyTempCalc = _fireCancel * ((0.01939 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 100 && _playerAlt <= 150) then { _bodyTempCalc = _fireCancel * ((0.01778 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 50 && _playerAlt <= 100) then { _bodyTempCalc = _fireCancel * ((0.01641 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 0 && _playerAlt <= 50) then { _bodyTempCalc = _fireCancel * ((0.01524 * _coldUniform) + _coldRain); };
     } else { // Day time
-        if (_playerAlt > 450) then { _bodyTempCalc = ((0.021 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 400 && _playerAlt <= 450) then { _bodyTempCalc = _fireCancel * ((0.019 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 300 && _playerAlt <= 350) then { _bodyTempCalc = _fireCancel * ((0.017 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 250 && _playerAlt <= 300) then { _bodyTempCalc = _fireCancel * ((0.015 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 200 && _playerAlt <= 250) then { _bodyTempCalc = _fireCancel * ((0.013 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 150 && _playerAlt <= 200) then { _bodyTempCalc = _fireCancel * ((0.011 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 100 && _playerAlt <= 150) then { _bodyTempCalc = _fireCancel * ((0.009 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 50 && _playerAlt <= 100) then { _bodyTempCalc = _fireCancel * ((0.007 * _coldUniform) + _coldRain); };
-        if (_playerAlt > 0 && _playerAlt <= 50) then { _bodyTempCalc = _fireCancel * ((0.005 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 450) then { _bodyTempCalc = _fireCancel * ((0.02133 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 400 && _playerAlt <= 450) then { _bodyTempCalc = _fireCancel * ((0.01939 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 300 && _playerAlt <= 350) then { _bodyTempCalc = _fireCancel * ((0.01778 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 250 && _playerAlt <= 300) then { _bodyTempCalc = _fireCancel * ((0.01641 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 200 && _playerAlt <= 250) then { _bodyTempCalc = _fireCancel * ((0.01524 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 150 && _playerAlt <= 200) then { _bodyTempCalc = _fireCancel * ((0.01422 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 100 && _playerAlt <= 150) then { _bodyTempCalc = _fireCancel * ((0.01333 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 50 && _playerAlt <= 100) then { _bodyTempCalc = _fireCancel * ((0.01255 * _coldUniform) + _coldRain); };
+        if (_playerAlt > 0 && _playerAlt <= 50) then { _bodyTempCalc = _fireCancel * ((0.01185 * _coldUniform) + _coldRain); };
     };
 
     if (surfaceIsWater getPos player && isNull objectParent player && !(_checkStats)) then { // Checking to see if the player is in water and not in a boat
         bodyTemp = bodyTemp - 0.3;
     };
 	
-	if !(isNull objectParent player) then { _bodyTempCalc = _bodyTempCalc * .85; }; // if the player is in a vehicle, then have the body temperature slow down in either overheating or freezing
+	// if the player is in a vehicle, then have the body temperature slow down in either overheating or freezing
+	if !(isNull objectParent player) then { 
+		_bodyTempCalc = _bodyTempCalc * .85;
+	};
     
     if !(_checkStats) then {
 		bodyTemp = bodyTemp - _bodyTempCalc;
         if (bodyTemp < 91) then {
-            if (bodyTemp < 89) then {  player setDamage 1; };
+            if (bodyTemp < 89 && (random 1) > .80) then {  player setDamage 1; };
             addCamShake [0.5, 1, 10];
            
 
@@ -165,7 +168,7 @@ getCalculatedBodyTempAndHealth = {
             };
         };
         if (bodyTemp > 106) then {
-            if (bodyTemp > 108) then { player setDamage 1; };
+            if (bodyTemp > 108 && (random 1) > .80) then { player setDamage 1; };
             addCamShake [0.5, 1, 10];
 
             [format ["<t color='#F38701' size='.5'>EXTREMELY HIGH BODY TEMP<br/>Current Temp: %1</t>",bodyTemp], .8, 1, 1.5, .3, 0, 789] spawn BIS_fnc_dynamicText;

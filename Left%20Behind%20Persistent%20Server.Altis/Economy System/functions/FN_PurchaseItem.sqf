@@ -3,11 +3,12 @@ _itemsPlayer = itemsWithMagazines _container;
 
 _bankNotesCount = { _x == "rvg_money" } count magazines _caller;
 
-if (_bankNotesCount == 0) then {
+if (_bankNotesCount == 0) exitWith {
 	hintSilent "Sorry, but yo ass broke";
 	sleep 3;
 	hintSilent "";
 };
+
 if (_bankNotesCount < _arguments select 1 AND _bankNotesCount != 0) then {
 	hintSilent "Sorry, not enough money to purchase item";
 	sleep 3;
@@ -19,10 +20,8 @@ if (_bankNotesCount < _arguments select 1 AND _bankNotesCount != 0) then {
 		_index = _index + 1;
 	};
 	
-	execVM "ArrayDatabase.sqf";
-	
-	backpackSelection = ["backpack"] call FN_arrayReturn;
-	backpackSelectionRare = ["backpackExpensive"] call FN_arrayReturn;
+	backpackSelection = ["backpack"] call (missionNamespace getVariable "FN_arrayReturn");
+	backpackSelectionRare = ["backpackExpensive"] call (missionNamespace getVariable "FN_arrayReturn");
 	
 	if ((_arguments select 0) in backpackSelection or (_arguments select 0) in backpackSelectionRare) then {
 		[_container, _caller, _actionId, _arguments, 2, 0] execVM "Economy System\functions\FN_ammoBoxCheck.sqf";
